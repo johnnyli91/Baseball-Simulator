@@ -8,8 +8,14 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
 
 
+class PlayerCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Player
+
+
 class PlayerSerializer(serializers.ModelSerializer):
-    team = TeamSerializer(read_only=True)
+    team = TeamSerializer()
 
     class Meta:
         model = Player
