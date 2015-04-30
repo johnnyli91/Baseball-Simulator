@@ -6,6 +6,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
+        fields = ('pk', 'name', 'team_player')
 
 
 class PlayerCreateSerializer(serializers.ModelSerializer):
@@ -19,12 +20,14 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
+        fields = ('pk', 'name', 'power', 'contact', 'speed', 'pitch', 'team', 'bat')
 
 
 class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
+        fields = ('name', 'inning')
 
 
 class InningSerializer(serializers.ModelSerializer):
@@ -35,11 +38,20 @@ class InningSerializer(serializers.ModelSerializer):
         model = Inning
 
 
+class InningCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Inning
+
+
 class BatSerializer(serializers.ModelSerializer):
-    player = PlayerSerializer(read_only=True)
-    inning = InningSerializer(read_only=True)
 
     class Meta:
         model = Bat
+        fields = ('pk', 'player', 'inning', 'result')
 
 
+class BatCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bat
