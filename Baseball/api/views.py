@@ -35,3 +35,33 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
 class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
+
+
+class InningListAPIView(generics.ListAPIView):
+    queryset = Inning.objects.all()
+    serializer_class = InningSerializer
+
+
+class InningCreateAPIView(generics.CreateAPIView):
+    queryset = Inning.objects.all()
+    serializer_class = InningCreateSerializer
+
+
+class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Inning.objects.all()
+    serializer_class = InningSerializer
+
+
+class BatListAPIView(generics.ListAPIView):
+    queryset = Bat.objects.all()
+    serializer_class = BatSerializer
+
+
+class BatCreateAPIView(generics.CreateAPIView):
+    queryset = Bat.objects.all()
+    serializer_class = BatCreateSerializer
+
+
+class BatRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Bat.objects.all()
+    serializer_class = BatSerializer
