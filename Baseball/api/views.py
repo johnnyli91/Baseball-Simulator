@@ -38,8 +38,7 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
         team1 = Team.objects.get(pk=teams[0])
         team2 = Team.objects.get(pk=teams[1])
         game = Game.objects.latest('pk') #gets current game
-        Team.objects.create(name=team2.name)
-
+        #add code for gameplay
 
 class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
