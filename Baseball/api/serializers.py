@@ -27,7 +27,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('name', 'inning')
+        fields = ('name', 'team')
 
 
 class InningSerializer(serializers.ModelSerializer):

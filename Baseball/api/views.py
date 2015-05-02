@@ -1,3 +1,4 @@
+from django.http import QueryDict
 from rest_framework import generics
 from serializers import *
 
@@ -31,6 +32,13 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
 
+    def perform_create(self, serializer):
+        serializer.save()
+        teams = self.request.POST.getlist('team')
+        team1 = Team.objects.get(pk=teams[0])
+        team2 = Team.objects.get(pk=teams[1])
+        game = Game.objects.latest('pk') #gets current game
+        #add code for gameplay
 
 class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
