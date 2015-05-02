@@ -22,6 +22,7 @@ class Player(models.Model):
 
 class Game(models.Model):
     name = models.CharField(max_length=120)
+    team = models.ManyToManyField(Team)
 
     def __unicode__(self):
         return self.name
