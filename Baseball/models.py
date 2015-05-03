@@ -31,7 +31,7 @@ class Game(models.Model):
 class Inning(models.Model):
     game = models.ForeignKey(Game, related_name="inning")
     number = models.IntegerField()
-    score = models.IntegerField()
+    # score = models.IntegerField()
     team = models.ForeignKey(Team, related_name="inning")
 
     def __unicode__(self):
