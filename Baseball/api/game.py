@@ -29,3 +29,30 @@ class Simulation:
                 result = 4
         Bat.objects.create(player=batter.pk, inning=inning, result=result)
         return result
+
+    def play(self):
+        inning = 1
+        team1_index = 0
+        team2_index = 0
+        for i in range(9):
+            outs = 0
+            Inning.objects.create(game=self.game, number=inning, team=self.team1[0].team)
+            team1_inning = Inning.objects.latest('pk')
+            Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
+            team2_inning = Inning.objects.latest('pk')
+            while outs < 3:
+                if self.bat(self.team1[team1_index], self.team2[0], team1_inning.pk) == 0:
+                    outs += 1
+                if team1_index == len(self.team1) - 1:
+                    team1_index = 0
+                else:
+                    team1_index += 1
+            outs = 0
+            while outs < 3:
+                if self.bat(self.team2[team2_index], self.team1[0], team2_inning.pk) == 0:
+                    outs += 1
+                if team2_index == len(self.team2) - 1:
+                    team2_index = 0
+                else:
+                    team2_index += 1
+            inning += 1
