@@ -44,15 +44,15 @@ class Simulation:
                 if self.bat(self.team1[team1_index], self.team2[0], team1_inning.pk) == 0:
                     outs += 1
                 if team1_index == len(self.team1) - 1:
-                    team1_index += 1
-                else:
                     team1_index = 0
+                else:
+                    team1_index += 1
             outs = 0
             while outs < 3:
                 if self.bat(self.team2[team2_index], self.team1[0], team2_inning.pk) == 0:
                     outs += 1
                 if team2_index == len(self.team2) - 1:
-                    team2_index += 1
-                else:
                     team2_index = 0
+                else:
+                    team2_index += 1
             inning += 1
