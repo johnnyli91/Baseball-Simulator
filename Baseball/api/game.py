@@ -6,7 +6,7 @@ class Simulation:
     def __init__(self, team1, team2, game):
         self.team1 = Player.objects.filter(team=team1.pk)
         self.team2 = Player.objects.filter(team=team2.pk)
-        self.game = game.pk
+        self.game = game
 
     def bat(self, batter, pitcher, inning):
         random_number_for_contact = random.randint(0, 100)
@@ -27,7 +27,7 @@ class Simulation:
                 result = 3
             else:
                 result = 4
-        Bat.objects.create(player=batter.pk, inning=inning, result=result)
+        Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
     def play(self):
@@ -41,7 +41,7 @@ class Simulation:
             Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
             team2_inning = Inning.objects.latest('pk')
             while outs < 3:
-                if self.bat(self.team1[team1_index], self.team2[0], team1_inning.pk) == 0:
+                if self.bat(self.team1[team1_index], self.team2[0], team1_inning) == 0:
                     outs += 1
                 if team1_index == len(self.team1) - 1:
                     team1_index = 0
@@ -49,7 +49,7 @@ class Simulation:
                     team1_index += 1
             outs = 0
             while outs < 3:
-                if self.bat(self.team2[team2_index], self.team1[0], team2_inning.pk) == 0:
+                if self.bat(self.team2[team2_index], self.team1[0], team2_inning) == 0:
                     outs += 1
                 if team2_index == len(self.team2) - 1:
                     team2_index = 0
