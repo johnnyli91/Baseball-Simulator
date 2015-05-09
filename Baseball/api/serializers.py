@@ -43,15 +43,23 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('name', 'team', 'game_score')
+        fields = ('pk', 'name', 'team', 'game_score')
 
 
 class InningSerializer(serializers.ModelSerializer):
-    game = GameSerializer(read_only=True)
     team = TeamSerializer(read_only=True)
 
     class Meta:
         model = Inning
+
+
+class GameDetailSerializer(serializers.ModelSerializer):
+    game_score = ScoreSerializer(many=True, read_only=True)
+    inning = InningSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Game
+        fields = ('pk', 'name', 'team', 'game_score', 'inning')
 
 
 class InningCreateSerializer(serializers.ModelSerializer):
