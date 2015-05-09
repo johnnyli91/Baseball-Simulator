@@ -39,7 +39,7 @@ class Simulation:
             team1_inning = Inning.objects.latest('pk')
             Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
             team2_inning = Inning.objects.latest('pk')
-            # TODO: make code more DRY
+            # TODO: make code below more DRY
             outs = 0
             score = 0
             first_base = None
@@ -95,10 +95,11 @@ class Simulation:
                 else:
                     team1_index += 1
             team1_inning.score = score
+            team1_inning.save()
             outs = 0
             score = 0
             while outs < 3:
-                current_bat = self.bat(self.team2[team1_index], self.team1[0], team2_inning)
+                current_bat = self.bat(self.team2[team2_index], self.team1[0], team2_inning)
                 if current_bat == 4:
                     score += 1
                     if third_base:
@@ -113,7 +114,7 @@ class Simulation:
                 elif current_bat == 3:
                     if third_base:
                         score += 1
-                        third_base = self.team2[team1_index]
+                        third_base = self.team2[team2_index]
                     if second_base:
                         score += 1
                         second_base = None
@@ -126,7 +127,7 @@ class Simulation:
                         third_base = None
                     if second_base:
                         score += 1
-                        second_base = self.team2[team1_index]
+                        second_base = self.team2[team2_index]
                     if first_base:
                         third_base = first_base
                         first_base = None
@@ -139,7 +140,7 @@ class Simulation:
                         second_base = None
                     if first_base:
                         second_base = first_base
-                        first_base = self.team2[team1_index]
+                        first_base = self.team2[team2_index]
                 elif current_bat == 0:
                     outs += 1
                 if team2_index == len(self.team2) - 1:
@@ -147,4 +148,16 @@ class Simulation:
                 else:
                     team2_index += 1
             team2_inning.score = score
+            team2_inning.save()
             inning += 1
+        all_innings = Inning.objects.filter(game=self.game)
+        team1_inning = all_innings.filter(team=self.team1[0].team)
+        team2_inning = all_innings.filter(team=self.team2[0].team)
+        team1_score = 0
+        team2_score = 0
+        for inning in team1_inning:
+            team1_score += inning.score
+        for inning in team2_inning:
+            team2_score += inning.score
+        Score.objects.create(team=self.team1[0].team, game=self.game, score=team1_score)
+        Score.objects.create(team=self.team2[0].team, game=self.game, score=team2_score)
