@@ -28,10 +28,19 @@ class Game(models.Model):
         return self.name
 
 
+class Score(models.Model):
+    team = models.ForeignKey(Team, related_name="team_score")
+    score = models.IntegerField()
+    game = models.ForeignKey(Game, related_name="game_score")
+
+    def __unicode__(self):
+        return "{}: {}".format(self.game, self.team)
+
+
 class Inning(models.Model):
     game = models.ForeignKey(Game, related_name="inning")
     number = models.IntegerField()
-    # score = models.IntegerField()
+    score = models.IntegerField(null=True)
     team = models.ForeignKey(Team, related_name="inning")
 
     def __unicode__(self):
