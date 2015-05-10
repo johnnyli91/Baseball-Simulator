@@ -44,7 +44,7 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
 
 class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    serializer_class = GameDetailSerializer
 
 
 class InningListAPIView(generics.ListAPIView):

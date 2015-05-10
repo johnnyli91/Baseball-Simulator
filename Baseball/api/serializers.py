@@ -16,26 +16,50 @@ class PlayerCreateSerializer(serializers.ModelSerializer):
 
 
 class PlayerSerializer(serializers.ModelSerializer):
-    team = TeamSerializer()
 
     class Meta:
         model = Player
-        fields = ('pk', 'name', 'power', 'contact', 'speed', 'pitch', 'team', 'bat')
+        fields = ('pk', 'name', 'power', 'contact', 'speed', 'pitch')
+
+
+class TeamForScoreSerializer(serializers.ModelSerializer):
+    team_player = PlayerSerializer(many=True)
+
+    class Meta:
+        model = Team
+        fields = ('pk', 'name', 'team_player')
+
+
+class ScoreSerializer(serializers.ModelSerializer):
+    team = TeamForScoreSerializer()
+
+    class Meta:
+        model = Score
+        fields = ('team', 'score')
 
 
 class GameSerializer(serializers.ModelSerializer):
+    game_score = ScoreSerializer(many=True, read_only=True)
 
     class Meta:
         model = Game
-        fields = ('name', 'team')
+        fields = ('pk', 'name', 'team', 'game_score')
 
 
 class InningSerializer(serializers.ModelSerializer):
-    game = GameSerializer(read_only=True)
     team = TeamSerializer(read_only=True)
 
     class Meta:
         model = Inning
+
+
+class GameDetailSerializer(serializers.ModelSerializer):
+    game_score = ScoreSerializer(many=True, read_only=True)
+    inning = InningSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Game
+        fields = ('pk', 'name', 'team', 'game_score', 'inning')
 
 
 class InningCreateSerializer(serializers.ModelSerializer):
