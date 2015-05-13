@@ -7,6 +7,8 @@ class Simulation:
         self.team1 = Player.objects.filter(team=team1.pk)
         self.team2 = Player.objects.filter(team=team2.pk)
         self.game = game
+        self.team1_index = 0
+        self.team2_index = 0
 
     def bat(self, batter, pitcher, inning):
         random_number_for_contact = random.randint(0, 100)
@@ -30,125 +32,74 @@ class Simulation:
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
+    def inning(self, team, team2, team_index, team_inning):
+        outs = 0
+        score = 0
+        first_base = None
+        second_base = None
+        third_base = None
+        while outs < 3:
+            current_bat = self.bat(team[team_index], team2[0], team_inning)
+            if current_bat == 4:
+                score += 1
+                if third_base:
+                    score += 1
+                    third_base = None
+                if second_base:
+                    score += 1
+                    second_base = None
+                if first_base:
+                    score += 1
+                    first_base = None
+            elif current_bat == 3:
+                if third_base:
+                    score += 1
+                    third_base = team[team_index]
+                if second_base:
+                    score += 1
+                    second_base = None
+                if first_base:
+                    score += 1
+                    first_base = None
+            elif current_bat == 2:
+                if third_base:
+                    score += 1
+                    third_base = None
+                if second_base:
+                    score += 1
+                    second_base = team[team_index]
+                if first_base:
+                    third_base = first_base
+                    first_base = None
+            elif current_bat == 1:
+                if third_base:
+                    score += 1
+                    third_base = None
+                if second_base:
+                    third_base = second_base
+                    second_base = None
+                if first_base:
+                    second_base = first_base
+                    first_base = team[team_index]
+            elif current_bat == 0:
+                outs += 1
+            if team_index == len(team) - 1:
+                team_index = 0
+            else:
+                team_index += 1
+        team_inning.score = score
+        team_inning.save()
+
     def play(self):
         inning = 1
-        team1_index = 0
-        team2_index = 0
         for i in range(9):
             Inning.objects.create(game=self.game, number=inning, team=self.team1[0].team)
             team1_inning = Inning.objects.latest('pk')
             Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
             team2_inning = Inning.objects.latest('pk')
-            # TODO: make code below more DRY
-            outs = 0
-            score = 0
-            first_base = None
-            second_base = None
-            third_base = None
-            while outs < 3:
-                current_bat = self.bat(self.team1[team1_index], self.team2[0], team1_inning)
-                if current_bat == 4:
-                    score += 1
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        score += 1
-                        second_base = None
-                    if first_base:
-                        score += 1
-                        first_base = None
-                elif current_bat == 3:
-                    if third_base:
-                        score += 1
-                        third_base = self.team1[team1_index]
-                    if second_base:
-                        score += 1
-                        second_base = None
-                    if first_base:
-                        score += 1
-                        first_base = None
-                elif current_bat == 2:
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        score += 1
-                        second_base = self.team1[team1_index]
-                    if first_base:
-                        third_base = first_base
-                        first_base = None
-                elif current_bat == 1:
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        third_base = second_base
-                        second_base = None
-                    if first_base:
-                        second_base = first_base
-                        first_base = self.team1[team1_index]
-                elif current_bat == 0:
-                    outs += 1
-                if team1_index == len(self.team1) - 1:
-                    team1_index = 0
-                else:
-                    team1_index += 1
-            team1_inning.score = score
-            team1_inning.save()
-            outs = 0
-            score = 0
-            while outs < 3:
-                current_bat = self.bat(self.team2[team2_index], self.team1[0], team2_inning)
-                if current_bat == 4:
-                    score += 1
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        score += 1
-                        second_base = None
-                    if first_base:
-                        score += 1
-                        first_base = None
-                elif current_bat == 3:
-                    if third_base:
-                        score += 1
-                        third_base = self.team2[team2_index]
-                    if second_base:
-                        score += 1
-                        second_base = None
-                    if first_base:
-                        score += 1
-                        first_base = None
-                elif current_bat == 2:
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        score += 1
-                        second_base = self.team2[team2_index]
-                    if first_base:
-                        third_base = first_base
-                        first_base = None
-                elif current_bat == 1:
-                    if third_base:
-                        score += 1
-                        third_base = None
-                    if second_base:
-                        third_base = second_base
-                        second_base = None
-                    if first_base:
-                        second_base = first_base
-                        first_base = self.team2[team2_index]
-                elif current_bat == 0:
-                    outs += 1
-                if team2_index == len(self.team2) - 1:
-                    team2_index = 0
-                else:
-                    team2_index += 1
-            team2_inning.score = score
-            team2_inning.save()
+            # TODO: fix bug about resetting team indexes
+            self.inning(self.team1, self.team2, self.team1_index, team1_inning)
+            self.inning(self.team2, self.team1, self.team2_index, team2_inning)
             inning += 1
         all_innings = Inning.objects.filter(game=self.game)
         team1_inning = all_innings.filter(team=self.team1[0].team)

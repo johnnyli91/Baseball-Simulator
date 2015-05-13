@@ -1,2 +1,2 @@
 'use strict';
-angular.module('baseballApp', ['ngRoute'])
+angular.module('baseballApp', ['ngRoute '])
