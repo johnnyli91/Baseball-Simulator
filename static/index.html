@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset='UTF-8'/>
-        <title>Baseball Simulator</title>
-        <link href='assets/css/bootstrap.min.css'/>
-    </head>
-    <body ng-app='baseballApp'>
-        <div ng-view=''></div>
-        <script src='assets/js/angular.min.js'></script>
-        <script src='assets/js/angular-route.min.js'></script>
-        <script src='app/app.js'></script>
-        <script src='app/controller/home-controller.js'></script>
-        <script src='app/routes.js'></script>
-    </body>
+  <head>
+    <meta charset="UTF-8"/>
+      <title>Baseball Simulator</title>
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+  </head>
+  <body ng-app="baseballApp">
+    <nav class="navbar navbar-default">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Baseball Sim</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li data-match-route="/game"><a href="#/game">Game</a></li>
+        <li data-match-route="/team"><a href="#/team">Team</a></li>
+        <li data-match-route="/player"><a href="#/player">Player</a></li>
+      </ul>
+    </nav>
+
+    <div ng-view=""></div>
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/angular-route.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/controller/home-controller.js"></script>
+    <script src="app/routes.js"></script>
+  </body>
 </html>
