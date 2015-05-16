@@ -1,5 +1,5 @@
 "use strict";
 angular.module("baseballApp")
-  .controller("HomeController", function ($scope) {
+  .controller("TeamController", function ($scope) {
       //add code here
   })
