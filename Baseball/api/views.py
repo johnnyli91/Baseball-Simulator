@@ -34,7 +34,7 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save()
-        teams = self.request.POST.getlist('team')
+        teams = self.request.data['team']
         team1 = Team.objects.get(pk=teams[0])
         team2 = Team.objects.get(pk=teams[1])
         game = Game.objects.latest('pk') #gets current game
