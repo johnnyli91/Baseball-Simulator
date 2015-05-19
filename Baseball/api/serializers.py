@@ -39,6 +39,7 @@ class ScoreSerializer(serializers.ModelSerializer):
 
 
 class GameSerializer(serializers.ModelSerializer):
+    # no inning
     game_score = ScoreSerializer(many=True, read_only=True)
 
     class Meta:
@@ -54,6 +55,7 @@ class InningSerializer(serializers.ModelSerializer):
 
 
 class GameDetailSerializer(serializers.ModelSerializer):
+    # has inning
     game_score = ScoreSerializer(many=True, read_only=True)
     inning = InningSerializer(many=True, read_only=True)
 

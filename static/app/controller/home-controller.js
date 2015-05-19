@@ -6,12 +6,18 @@ angular.module("baseballApp")
         success(function (data, status, headers, config) {
           var result_name = data.name;
           var score = data.game_score;
+          var result_pk = data.pk;
           var score_arr = [];
           for (var i = 0; i < score.length; i++) {
             score_arr.push(score[i]["team"]["name"] + ": " + score[i]["score"].toString() + "\n");
           }
           $scope.results = result_name + "\n" + score_arr[0] + score_arr[1];
-          console.log(data);
+          $http.get("http://localhost:8000/api/games/" + result_pk + "/").
+            success(function (data, status, headers, config) {
+              console.log(data);
+            }).error(function (data, status, headers, config) {
+              console.log(data);
+            })
         }).
         error(function (data, status, headers, config) {
           console.log(data);
