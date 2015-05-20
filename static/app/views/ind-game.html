@@ -1,3 +1,11 @@
 <div class="container-fluid">
-  <p>This is the game page for game # {{pk}}.</p>
+  <h1>Game Name: {{gameName}}</h1>
+  <h3>Teams and Final Score</h3>
+  <ul>
+    <li ng-repeat="score in scores">{{score.team.name}}: {{score.score}}</li>
+  </ul>
+  <h3>Innings</h3>
+  <ul>
+    <li ng-repeat="inning in innings"><strong>Team:</strong> {{inning.team.name}} <strong>Inning:</strong> {{inning.number}} <strong>Score:</strong> {{inning.score}}</li>
+  </ul>
 </div>
