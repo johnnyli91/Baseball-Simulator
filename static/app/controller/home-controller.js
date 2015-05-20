@@ -1,23 +1,11 @@
 "use strict";
 angular.module("baseballApp")
-  .controller("HomeController", function ($scope, $http) {
+  .controller("HomeController", function ($scope, $http, $location) {
     $scope.playBall = function () {
       $http.post("http://localhost:8000/api/games/", {"name": $scope.gameName, "team": [2,3]}).
         success(function (data, status, headers, config) {
-          var result_name = data.name;
-          var score = data.game_score;
           var result_pk = data.pk;
-          var score_arr = [];
-          for (var i = 0; i < score.length; i++) {
-            score_arr.push(score[i]["team"]["name"] + ": " + score[i]["score"].toString() + "\n");
-          }
-          $scope.results = result_name + "\n" + score_arr[0] + score_arr[1];
-          $http.get("http://localhost:8000/api/games/" + result_pk + "/").
-            success(function (data, status, headers, config) {
-              console.log(data);
-            }).error(function (data, status, headers, config) {
-              console.log(data);
-            })
+          $location.path("/game/" + result_pk);
         }).
         error(function (data, status, headers, config) {
           console.log(data);

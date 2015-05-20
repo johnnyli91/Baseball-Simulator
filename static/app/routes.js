@@ -13,6 +13,10 @@ angular.module("baseballApp").config(function ($routeProvider) {
         templateUrl: "app/views/game.html",
         controller: "GameController"
     })
+    .when("/game/:pk", {
+        templateUrl:"app/views/ind-game.html",
+        controller: "IndGameController"
+    })
     .when("/team", {
         templateUrl: "app/views/team.html",
         controller: "TeamController"
