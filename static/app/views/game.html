@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h1>Past Games</h1>
   <ul>
-    <li ng-repeat="game in games">{{game.name}}</li>
+    <li ng-repeat="game in games"><a href="#/game/{{game.pk}}">{{game.name}}</a></li>
   </ul>
 </div>
