@@ -1,11 +1,20 @@
 <div class="container-fluid">
   <h1>Game Name: {{gameName}}</h1>
-  <h3>Teams and Final Score</h3>
-  <ul>
-    <li ng-repeat="score in scores">{{score.team.name}}: {{score.score}}</li>
-  </ul>
-  <h3>Innings</h3>
-  <ul>
-    <li ng-repeat="inning in innings"><strong>Team:</strong> {{inning.team.name}} <strong>Inning:</strong> {{inning.number}} <strong>Score:</strong> {{inning.score}}</li>
-  </ul>
+  <h3>Results</h3>
+  <table id="results">
+    <tr>
+      <td class="table_heading">Inning</td>
+      <td class="table_heading" ng-repeat="num in inningNumber">{{num}}</td>
+      <td class="table_heading">Final</td>
+    </tr>
+    <tr>
+      <td class="table_heading"><a href="#/team/{{innings[0].team.pk}}">{{innings[0].team.name}}</a></td>
+      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[0].team.pk">{{inning.score}}</td>
+      <td>{{scores[0].score}}</td>
+    </tr>
+    <tr>
+      <td class="table_heading"><a href="#/team/{{innings[1].team.pk}}">{{innings[1].team.name}}</a></td>
+      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[1].team.pk">{{inning.score}}</td>
+      <td>{{scores[1].score}}</td>
+    </tr>
 </div>
