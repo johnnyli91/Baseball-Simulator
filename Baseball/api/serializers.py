@@ -22,7 +22,7 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = ('pk', 'name', 'power', 'contact', 'speed', 'pitch')
 
 
-class TeamForScoreSerializer(serializers.ModelSerializer):
+class TeamDetailSerializer(serializers.ModelSerializer):
     team_player = PlayerSerializer(many=True)
 
     class Meta:
@@ -31,7 +31,7 @@ class TeamForScoreSerializer(serializers.ModelSerializer):
 
 
 class ScoreSerializer(serializers.ModelSerializer):
-    team = TeamForScoreSerializer()
+    team = TeamDetailSerializer()
 
     class Meta:
         model = Score
