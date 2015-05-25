@@ -12,7 +12,9 @@ class Simulation:
 
     def bat(self, batter, pitcher, inning):
         random_number_for_contact = random.randint(0, 100)
-        chance_of_contact = batter.contact * pitcher.pitch
+        chance_of_contact = (batter.contact-pitcher.pitch) * 0.07 + 0.25
+        if chance_of_contact < 0.01:
+            chance_of_contact = 0.01
         result = 0
         if chance_of_contact <= random_number_for_contact:
             # determines which hit the batter received
