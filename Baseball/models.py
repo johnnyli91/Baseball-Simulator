@@ -10,6 +10,7 @@ class Team(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=120)
+    # all stats 1-100
     power = models.IntegerField()
     contact = models.IntegerField()
     speed = models.IntegerField()
@@ -48,6 +49,7 @@ class Inning(models.Model):
 
 
 class Bat(models.Model):
+    # TODO add a walk?
     RESULT_CHOICES = (
         (0, "Out"),
         (1, "Single"),
