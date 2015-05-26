@@ -10,12 +10,32 @@ class Team(models.Model):
 
 class Player(models.Model):
     name = models.CharField(max_length=120)
-    # all stats 1-100
+    # display stats
     power = models.IntegerField()
-    contact = models.IntegerField()
+    eye = models.IntegerField()
     speed = models.IntegerField()
-    pitch = models.IntegerField()
     team = models.ForeignKey(Team, related_name="team_player")
+    # actual stats for calculations
+    batter_contact = models.IntegerField()
+    batter_single = models.IntegerField()
+    batter_double = models.IntegerField()
+    batter_triple = models.IntegerField()
+    batter_homerun = models.IntegerField()
+    batter_walk = models.IntegerField()
+    batter_strikeout = models.IntegerField()
+    batter_groundout = models.IntegerField()
+    batter_flyout = models.IntegerField()
+    batter_speed = models.IntegerField()
+    pitcher_contact = models.IntegerField()
+    pitcher_single = models.IntegerField()
+    pitcher_double = models.IntegerField()
+    pitcher_triple = models.IntegerField()
+    pitcher_homerun = models.IntegerField()
+    pitcher_walk = models.IntegerField()
+    pitcher_strikeout = models.IntegerField()
+    pitcher_groundout = models.IntegerField()
+    pitcher_flyout = models.IntegerField()
+
 
     def __unicode__(self):
         return self.name
@@ -51,11 +71,14 @@ class Inning(models.Model):
 class Bat(models.Model):
     # TODO add a walk?
     RESULT_CHOICES = (
-        (0, "Out"),
         (1, "Single"),
         (2, "Double"),
         (3, "Triple"),
-        (4, "Home Run")
+        (4, "Home Run"),
+        (5, "Walk"),
+        (6, "Strikeout"),
+        (7, "Groundout"),
+        (8, "Flyout")
     )
     player = models.ForeignKey(Player, related_name="bat")
     inning = models.ForeignKey(Inning, related_name="inning")
