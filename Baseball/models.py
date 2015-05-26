@@ -26,15 +26,15 @@ class Player(models.Model):
     batter_groundout = models.IntegerField()
     batter_flyout = models.IntegerField()
     batter_speed = models.IntegerField()
-    pitcher_contact = models.IntegerField()
-    pitcher_single = models.IntegerField()
-    pitcher_double = models.IntegerField()
-    pitcher_triple = models.IntegerField()
-    pitcher_homerun = models.IntegerField()
-    pitcher_walk = models.IntegerField()
-    pitcher_strikeout = models.IntegerField()
-    pitcher_groundout = models.IntegerField()
-    pitcher_flyout = models.IntegerField()
+    pitcher_contact = models.IntegerField(default=0)
+    pitcher_single = models.IntegerField(default=0)
+    pitcher_double = models.IntegerField(default=0)
+    pitcher_triple = models.IntegerField(default=0)
+    pitcher_homerun = models.IntegerField(default=0)
+    pitcher_walk = models.IntegerField(default=0)
+    pitcher_strikeout = models.IntegerField(default=0)
+    pitcher_groundout = models.IntegerField(default=0)
+    pitcher_flyout = models.IntegerField(default=0)
 
 
     def __unicode__(self):
@@ -69,7 +69,6 @@ class Inning(models.Model):
 
 
 class Bat(models.Model):
-    # TODO add a walk?
     RESULT_CHOICES = (
         (1, "Single"),
         (2, "Double"),
