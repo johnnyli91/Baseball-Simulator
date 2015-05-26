@@ -12,25 +12,45 @@ class Simulation:
 
     def bat(self, batter, pitcher, inning):
         random_number_for_contact = random.randint(0, 100)
-        chance_of_contact = (batter.contact-pitcher.pitch) * 0.07 + 0.25
-        if chance_of_contact < 0.01:
-            chance_of_contact = 0.01
+        chance_of_contact = (batter.batter_contact-pitcher.pitcher_contact) * 0.0025 + 0.25
         result = 0
         if chance_of_contact <= random_number_for_contact:
             # determines which hit the batter received
-            random_number_for_hit = random.randint(0, batter.power)
-            double = batter.power/5
-            triple = double - pitcher.pitch/10
-            home_run = batter.power/10
-            single = batter.power - double - triple - home_run
-            if random_number_for_hit < single:
+            random_number_for_result = random.uniform(0, 1)
+            outcome_single = (batter.batter_single - pitcher.pitcher_single) * 0.001 + 0.67
+            outcome_double = (batter.batter_double - pitcher.pitcher_double) * 0.001 + 0.2
+            outcome_triple = (batter.batter_triple - pitcher.pitcher_triple) * 0.001 + 0.01
+            outcome_homerun = (batter.batter_homerun - pitcher.pitcher_homerun) * 0.001 + 0.1
+            outcome_walk = (batter.batter_walk - pitcher.pitcher_walk) * 0.001 + 0.08
+            outcome_total = outcome_single + outcome_double + outcome_triple + outcome_homerun + outcome_walk
+            percent_single = outcome_single/outcome_total
+            percent_double = outcome_double/outcome_total
+            percent_triple = outcome_triple/outcome_total
+            percent_homerun = outcome_homerun/outcome_total
+            if random_number_for_result <= percent_single:
                 result = 1
-            elif random_number_for_hit < single + double:
+            elif random_number_for_result <= percent_single + percent_double:
                 result = 2
-            elif random_number_for_hit < single + double + triple:
+            elif random_number_for_result <= percent_single + percent_double + percent_triple:
                 result = 3
-            else:
+            elif random_number_for_result <= percent_single + percent_double + percent_triple + percent_homerun:
                 result = 4
+            else:
+                result = 5
+        else:
+            random_number_for_out = random.uniform(0, 1)
+            strikeout = 0.001 + (pitcher.pitcher_strikeout/batter.batter_strikeout) * 0.0099
+            groundout = 0.001 + (pitcher.pitcher_groundout/batter.batter_groundout) * 0.0099
+            flyout = 0.001 + (pitcher.pitcher_flyout/batter.batter_flyout) * 0.0099
+            out_total = strikeout + groundout + flyout
+            percent_strikeout = strikeout/out_total
+            percent_groundout = groundout/out_total
+            if random_number_for_out <= percent_strikeout:
+                result = 6
+            elif random_number_for_out <= percent_strikeout + percent_groundout:
+                result = 7
+            else:
+                result = 8
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
