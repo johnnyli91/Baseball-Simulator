@@ -122,8 +122,8 @@ class Simulation:
             Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
             team2_inning = Inning.objects.latest('pk')
             # TODO: fix bug about resetting team indexes
-            self.inning(self.team1, self.pitcher2, self.team1_index, team1_inning)
-            self.inning(self.team2, self.pitcher1, self.team2_index, team2_inning)
+            self.inning(self.team1, self.pitcher2[0], self.team1_index, team1_inning)
+            self.inning(self.team2, self.pitcher1[0], self.team2_index, team2_inning)
             inning += 1
         all_innings = Inning.objects.filter(game=self.game)
         team1_inning = all_innings.filter(team=self.team1[0].team)
