@@ -38,6 +38,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=120)),
+                ('role', models.IntegerField(default=0, choices=[(0, b'Batter'), (1, b'Pitcher')])),
                 ('power', models.IntegerField()),
                 ('eye', models.IntegerField()),
                 ('speed', models.IntegerField()),

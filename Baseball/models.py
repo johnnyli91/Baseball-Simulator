@@ -9,7 +9,12 @@ class Team(models.Model):
 
 
 class Player(models.Model):
+    ROLE_CHOICES = (
+        (0, "Batter"),
+        (1, "Pitcher")
+    )
     name = models.CharField(max_length=120)
+    role = models.IntegerField(choices=ROLE_CHOICES, default=0)
     # display stats
     power = models.IntegerField()
     eye = models.IntegerField()

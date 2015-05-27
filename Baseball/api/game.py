@@ -6,6 +6,8 @@ class Simulation:
     def __init__(self, team1, team2, game):
         self.team1 = Player.objects.filter(team=team1.pk)
         self.team2 = Player.objects.filter(team=team2.pk)
+        self.pitcher1 = self.team1.filter(role=1)
+        self.pitcher2 = self.team2.filter(role=1)
         self.game = game
         self.team1_index = 0
         self.team2_index = 0
@@ -54,14 +56,14 @@ class Simulation:
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
-    def inning(self, team, team2, team_index, team_inning):
+    def inning(self, team, pitcher, team_index, team_inning):
         outs = 0
         score = 0
         first_base = None
         second_base = None
         third_base = None
         while outs < 3:
-            current_bat = self.bat(team[team_index], team2[0], team_inning)
+            current_bat = self.bat(team[team_index], pitcher, team_inning)
             if current_bat == 4:
                 score += 1
                 if third_base:
@@ -120,8 +122,8 @@ class Simulation:
             Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
             team2_inning = Inning.objects.latest('pk')
             # TODO: fix bug about resetting team indexes
-            self.inning(self.team1, self.team2, self.team1_index, team1_inning)
-            self.inning(self.team2, self.team1, self.team2_index, team2_inning)
+            self.inning(self.team1, self.pitcher2, self.team1_index, team1_inning)
+            self.inning(self.team2, self.pitcher1, self.team2_index, team2_inning)
             inning += 1
         all_innings = Inning.objects.filter(game=self.game)
         team1_inning = all_innings.filter(team=self.team1[0].team)
