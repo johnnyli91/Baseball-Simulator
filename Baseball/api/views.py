@@ -1,6 +1,8 @@
 from rest_framework import generics
 from serializers import *
 from game import Simulation
+import random
+import math
 
 
 class TeamListCreateAPIView(generics.ListCreateAPIView):
@@ -8,9 +10,58 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TeamSerializer
 
     def perform_create(self, serializer):
-        team_player = []
-        # code to generate players in a team
-        serializer.save(team_player=team_player)
+        def round_down(x):
+            return math.floor(x/5) * 5
+        serializer.save()
+        team_pk = Team.objects.latest('pk')
+        b_contact = random.randint(1, 100)
+        b_single = random.randint(1, 100)
+        b_double = random.randint(1, 100)
+        b_triple = random.randint(1, 100)
+        b_homerun = random.randint(1, 100)
+        b_walk = random.randint(1, 100)
+        b_strikeout = random.randint(1, 100)
+        b_groundout = random.randint(1, 100)
+        b_flyout = random.randint(1, 100)
+        b_speed = random.randint(1, 100)
+        p_contact = random.randint(1, 100)
+        p_single = random.randint(1, 100)
+        p_double = random.randint(1, 100)
+        p_triple = random.randint(1, 100)
+        p_homerun = random.randint(1, 100)
+        p_walk = random.randint(1, 100)
+        p_strikeout = random.randint(1, 100)
+        p_groundout = random.randint(1, 100)
+        p_flyout = random.randint(1, 100)
+        speed = round_down(b_triple * 0.49 + 50)
+        power = round_down(b_homerun * 0.49 + 50)
+        eye = round_down(b_walk * 0.49 + 50)
+        Player.objects.create(name="Pitcher", team=team_pk, power=power, eye=eye, speed=speed, batter_contact=b_contact, batter_single=b_single,
+                              batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
+                              batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
+                              batter_flyout=b_flyout, batter_speed=b_speed, pitcher_contact=p_contact,
+                              pitcher_single=p_single, pitcher_double=p_double, pitcher_triple=p_triple,
+                              pitcher_homerun=p_homerun, pitcher_walk=p_walk, pitcher_strikeout=p_strikeout,
+                              pitcher_groundout=p_groundout, pitcher_flyout=p_flyout, role=1)
+        for i in range(8):
+            b_contact = random.randint(1, 100)
+            b_single = random.randint(1, 100)
+            b_double = random.randint(1, 100)
+            b_triple = random.randint(1, 100)
+            b_homerun = random.randint(1, 100)
+            b_walk = random.randint(1, 100)
+            b_strikeout = random.randint(1, 100)
+            b_groundout = random.randint(1, 100)
+            b_flyout = random.randint(1, 100)
+            b_speed = random.randint(1, 100)
+            speed = round_down(b_triple * 0.49 + 50)
+            power = round_down(b_homerun * 0.49 + 50)
+            eye = round_down(b_walk * 0.49 + 50)
+            Player.objects.create(name="Player " + str(i), team=team_pk, power=power, eye=eye, speed=speed, batter_contact=b_contact, batter_single=b_single,
+                              batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
+                              batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
+                              batter_flyout=b_flyout, batter_speed=b_speed)
+
 
 
 class TeamRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
