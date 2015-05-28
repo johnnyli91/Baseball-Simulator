@@ -7,6 +7,11 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
 
+    def perform_create(self, serializer):
+        team_player = []
+        # code to generate players in a team
+        serializer.save(team_player=team_player)
+
 
 class TeamRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Team.objects.all()
