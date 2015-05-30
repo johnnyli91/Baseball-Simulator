@@ -9,12 +9,6 @@ class TeamSerializer(serializers.ModelSerializer):
         fields = ('pk', 'name', 'team_player')
 
 
-class PlayerCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Player
-
-
 class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:

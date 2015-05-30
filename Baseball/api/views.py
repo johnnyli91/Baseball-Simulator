@@ -74,11 +74,6 @@ class PlayerListAPIView(generics.ListAPIView):
     serializer_class = PlayerSerializer
 
 
-class PlayerCreateAPIView(generics.CreateAPIView):
-    queryset = Player.objects.all()
-    serializer_class = PlayerCreateSerializer
-
-
 class PlayerRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
