@@ -15,10 +15,14 @@ class Player(models.Model):
     )
     name = models.CharField(max_length=120)
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
-    # display stats
+    # batter display stats
     power = models.IntegerField()
     eye = models.IntegerField()
     speed = models.IntegerField()
+    # pitcher display stats
+    pitcher_control = models.IntegerField(default=0)
+    pitcher_power = models.IntegerField(default=0)
+    pitcher_movement = models.IntegerField(default=0)
     team = models.ForeignKey(Team, related_name="team_player")
     # actual stats for calculations
     batter_contact = models.IntegerField()
