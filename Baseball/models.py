@@ -20,9 +20,9 @@ class Player(models.Model):
     eye = models.IntegerField()
     speed = models.IntegerField()
     # pitcher display stats
-    pitcher_control = models.IntegerField(default=0)
-    pitcher_power = models.IntegerField(default=0)
-    pitcher_movement = models.IntegerField(default=0)
+    pitcher_control = models.IntegerField(default=1)
+    pitcher_power = models.IntegerField(default=1)
+    pitcher_movement = models.IntegerField(default=1)
     team = models.ForeignKey(Team, related_name="team_player")
     # actual stats for calculations
     batter_contact = models.IntegerField()
@@ -35,15 +35,15 @@ class Player(models.Model):
     batter_groundout = models.IntegerField()
     batter_flyout = models.IntegerField()
     batter_speed = models.IntegerField()
-    pitcher_contact = models.IntegerField(default=0)
-    pitcher_single = models.IntegerField(default=0)
-    pitcher_double = models.IntegerField(default=0)
-    pitcher_triple = models.IntegerField(default=0)
-    pitcher_homerun = models.IntegerField(default=0)
-    pitcher_walk = models.IntegerField(default=0)
-    pitcher_strikeout = models.IntegerField(default=0)
-    pitcher_groundout = models.IntegerField(default=0)
-    pitcher_flyout = models.IntegerField(default=0)
+    pitcher_contact = models.IntegerField(default=1)
+    pitcher_single = models.IntegerField(default=1)
+    pitcher_double = models.IntegerField(default=1)
+    pitcher_triple = models.IntegerField(default=1)
+    pitcher_homerun = models.IntegerField(default=1)
+    pitcher_walk = models.IntegerField(default=1)
+    pitcher_strikeout = models.IntegerField(default=1)
+    pitcher_groundout = models.IntegerField(default=1)
+    pitcher_flyout = models.IntegerField(default=1)
 
 
     def __unicode__(self):
