@@ -8,10 +8,11 @@ import math
 class TeamListCreateAPIView(generics.ListCreateAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-
     def perform_create(self, serializer):
         def round_down(x):
             return math.floor(x/5) * 5
+        first_name = ["Robert", "Joe", "David", "John"]
+        last_name = ["Richards", "Chan", "Li", "Jue"]
         serializer.save()
         team_pk = Team.objects.latest('pk')
         b_contact = random.randint(1, 100)
@@ -39,7 +40,8 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
         pitcher_control = round_down(p_walk * 0.49 + 50)
         pitcher_power = round_down(p_strikeout * 0.49 + 50)
         pitcher_movement = round_down(p_contact * 0.49 + 50)
-        Player.objects.create(name="Pitcher", team=team_pk, power=power, eye=eye, speed=speed, batter_contact=b_contact,
+        Player.objects.create(name=random.choice(first_name) + " " + random.choice(last_name), team=team_pk,
+                              power=power, eye=eye, speed=speed, batter_contact=b_contact,
                               pitcher_control=pitcher_control, pitcher_power=pitcher_power,
                               pitcher_movement=pitcher_movement, batter_single=b_single,
                               batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
@@ -62,10 +64,11 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
             speed = round_down(b_triple * 0.49 + 50)
             power = round_down(b_homerun * 0.49 + 50)
             eye = round_down(b_walk * 0.49 + 50)
-            Player.objects.create(name="Player " + str(i), team=team_pk, power=power, eye=eye, speed=speed, batter_contact=b_contact, batter_single=b_single,
-                              batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
-                              batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
-                              batter_flyout=b_flyout, batter_speed=b_speed)
+            Player.objects.create(name=random.choice(first_name) + " " + random.choice(last_name), team=team_pk,
+                                  power=power, eye=eye, speed=speed, batter_contact=b_contact, batter_single=b_single,
+                                  batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
+                                  batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
+                                  batter_flyout=b_flyout, batter_speed=b_speed)
 
 
 
