@@ -18,4 +18,14 @@ angular.module("baseballApp")
           console.log(data);
         });
     }
+    $scope.makeTeam = function() {
+      $http.post("http://localhost:8000/api/teams/", {"name":$scope.teamName, "team_player": []}).
+        success(function (data, status, headers, config) {
+          var result_pk = data.pk;
+          $location.path("/team/" + result_pk);
+        }).
+        error(function (data, status, headers, config) {
+          console.log(data);
+        });
+    }
   })
