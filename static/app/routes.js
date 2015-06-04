@@ -29,6 +29,10 @@ angular.module("baseballApp").config(function ($routeProvider) {
       templateUrl: "app/views/ind-team.html",
       controller: "IndTeamController"
     })
+    .when("/inning/:pk", {
+      templateUrl: "app/views/inning.html",
+      controller: "InningController"
+    })
     .when("/404", {
       templateUrl: "app/views/404.html",
       controller: "404Controller"

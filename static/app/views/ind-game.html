@@ -9,12 +9,16 @@
     </tr>
     <tr>
       <td class="table_heading"><a href="#/team/{{innings[0].team.pk}}">{{innings[0].team.name}}</a></td>
-      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[0].team.pk">{{inning.score}}</td>
+      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[0].team.pk">
+        <a href="#/inning/{{inning.id}}">{{inning.score}}</a>
+      </td>
       <td>{{scores[0].score}}</td>
     </tr>
     <tr>
       <td class="table_heading"><a href="#/team/{{innings[1].team.pk}}">{{innings[1].team.name}}</a></td>
-      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[1].team.pk">{{inning.score}}</td>
+      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[1].team.pk">
+        <a href="#/inning/{{inning.id}}">{{inning.score}}</a>
+      </td>
       <td>{{scores[1].score}}</td>
     </tr>
 </div>
