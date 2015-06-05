@@ -2,6 +2,12 @@ from rest_framework import serializers
 from ..models import *
 
 
+class BatCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bat
+
+
 class BatSerializer(serializers.ModelSerializer):
     result = serializers.SerializerMethodField()
 
@@ -11,13 +17,6 @@ class BatSerializer(serializers.ModelSerializer):
 
     def get_result(self, obj):
         return obj.get_result_display()
-
-
-class TeamSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Team
-        fields = ('pk', 'name', 'team_player')
 
 
 class PlayerSerializer(serializers.ModelSerializer):
@@ -41,6 +40,13 @@ class PlayerWithBatSerializer(serializers.ModelSerializer):
 
     def get_role(self, obj):
         return obj.get_role_display()
+
+
+class TeamSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Team
+        fields = ('pk', 'name', 'team_player')
 
 
 class TeamDetailSerializer(serializers.ModelSerializer):
@@ -76,18 +82,24 @@ class GameSerializer(serializers.ModelSerializer):
         fields = ('pk', 'name', 'team', 'game_score')
 
 
-class InningSerializer(serializers.ModelSerializer):
-    team = TeamDetailSerializer(read_only=True)
-
-    class Meta:
-        model = Inning
-
-
 class GameBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
         fields = ('pk', 'name', 'team')
+
+
+class InningCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Inning
+
+
+class InningSerializer(serializers.ModelSerializer):
+    team = TeamDetailSerializer(read_only=True)
+
+    class Meta:
+        model = Inning
 
 
 class InningDetailSerializer(serializers.ModelSerializer):
@@ -106,15 +118,3 @@ class GameDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('pk', 'name', 'team', 'game_score', 'inning')
-
-
-class InningCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Inning
-
-
-class BatCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Bat
