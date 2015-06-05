@@ -3,10 +3,14 @@ from ..models import *
 
 
 class BatSerializer(serializers.ModelSerializer):
+    result = serializers.SerializerMethodField()
 
     class Meta:
         model = Bat
         fields = ('pk', 'player', 'inning', 'result')
+
+    def get_result(self, obj):
+        return obj.get_result_display()
 
 
 class TeamSerializer(serializers.ModelSerializer):
