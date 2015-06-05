@@ -2,6 +2,13 @@ from rest_framework import serializers
 from ..models import *
 
 
+class BatSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Bat
+        fields = ('pk', 'player', 'inning', 'result')
+
+
 class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -16,8 +23,24 @@ class PlayerSerializer(serializers.ModelSerializer):
         fields = ('pk', 'name', 'role', 'power', 'eye', 'speed', 'pitcher_control', 'pitcher_power', 'pitcher_movement')
 
 
+class PlayerWithBatSerializer(serializers.ModelSerializer):
+    bat = BatSerializer(many=True)
+
+    class Meta:
+        model = Player
+        fields = ('pk', 'name', 'role', 'bat')
+
+
 class TeamDetailSerializer(serializers.ModelSerializer):
     team_player = PlayerSerializer(many=True)
+
+    class Meta:
+        model = Team
+        fields = ('pk', 'name', 'team_player')
+
+
+class TeamDetailWithBatSerializer(serializers.ModelSerializer):
+    team_player = PlayerWithBatSerializer(many=True)
 
     class Meta:
         model = Team
@@ -42,7 +65,7 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class InningSerializer(serializers.ModelSerializer):
-    team = TeamSerializer(read_only=True)
+    team = TeamDetailWithBatSerializer(read_only=True)
 
     class Meta:
         model = Inning
@@ -62,13 +85,6 @@ class InningCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inning
-
-
-class BatSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Bat
-        fields = ('pk', 'player', 'inning', 'result')
 
 
 class BatCreateSerializer(serializers.ModelSerializer):
