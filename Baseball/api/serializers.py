@@ -65,7 +65,22 @@ class GameSerializer(serializers.ModelSerializer):
 
 
 class InningSerializer(serializers.ModelSerializer):
+    team = TeamDetailSerializer(read_only=True)
+
+    class Meta:
+        model = Inning
+
+
+class GameBasicSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Game
+        fields = ('pk', 'name', 'team')
+
+
+class InningDetailSerializer(serializers.ModelSerializer):
     team = TeamDetailWithBatSerializer(read_only=True)
+    game = GameBasicSerializer()
 
     class Meta:
         model = Inning

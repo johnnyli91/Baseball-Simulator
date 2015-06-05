@@ -118,7 +118,7 @@ class InningCreateAPIView(generics.CreateAPIView):
 
 class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inning.objects.all()
-    serializer_class = InningSerializer
+    serializer_class = InningDetailSerializer
 
 
 class BatListAPIView(generics.ListAPIView):
