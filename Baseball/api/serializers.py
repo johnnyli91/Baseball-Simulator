@@ -21,18 +21,26 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class PlayerSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
 
     class Meta:
         model = Player
         fields = ('pk', 'name', 'role', 'power', 'eye', 'speed', 'pitcher_control', 'pitcher_power', 'pitcher_movement')
 
+    def get_role(self, obj):
+        return obj.get_role_display()
+
 
 class PlayerWithBatSerializer(serializers.ModelSerializer):
     bat = BatSerializer(many=True)
+    role = serializers.SerializerMethodField()
 
     class Meta:
         model = Player
         fields = ('pk', 'name', 'role', 'bat')
+
+    def get_role(self, obj):
+        return obj.get_role_display()
 
 
 class TeamDetailSerializer(serializers.ModelSerializer):

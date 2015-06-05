@@ -1,11 +1,11 @@
 <div class="container-fluid">
-  <h1 ng-if="role === 0">{{playerName}}</h1>
-  <h1 ng-if="role === 1">{{playerName}} (Pitcher)</h1>
+  <h1 ng-if="role === 'Batter'">{{playerName}}</h1>
+  <h1 ng-if="role === 'Pitcher'">{{playerName}} (Pitcher)</h1>
   <h3>Batting Stats</h3>
   <p>Power: {{power}}</p>
   <p>Contact: {{contact}}</p>
   <p>Speed: {{speed}}</p>
-  <div ng-if="role === 1">
+  <div ng-if="role === 'Pitcher'">
     <h3>Pitching Stats</h3>
     <p>Pitching Control: {{pitchControl}}</p>
     <p>Pitching Power: {{pitchPower}}</p>

@@ -6,6 +6,7 @@ angular.module("baseballApp")
       success(function (data, status, headers, config) {
         $scope.playerName = data.name;
         $scope.role = data.role;
+        console.log($scope.role)
         $scope.power = data.power;
         $scope.contact = data.eye;
         $scope.speed = data.speed;
