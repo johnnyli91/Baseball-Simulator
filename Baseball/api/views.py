@@ -119,18 +119,3 @@ class InningCreateAPIView(generics.CreateAPIView):
 class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningDetailSerializer
-
-
-class BatListAPIView(generics.ListAPIView):
-    queryset = Bat.objects.all()
-    serializer_class = BatSerializer
-
-
-class BatCreateAPIView(generics.CreateAPIView):
-    queryset = Bat.objects.all()
-    serializer_class = BatCreateSerializer
-
-
-class BatRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Bat.objects.all()
-    serializer_class = BatSerializer

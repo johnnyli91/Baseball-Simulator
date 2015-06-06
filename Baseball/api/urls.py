@@ -10,8 +10,5 @@ urlpatterns = [
     url(r'^games/(?P<pk>\d+)', GameRetrieveUpdateDestroyAPIView.as_view()),
     url(r'^innings/$', InningListAPIView.as_view()),
     url(r'^innings/create', InningCreateAPIView.as_view()),
-    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view()),
-    url(r'^bats/$', BatListAPIView.as_view()),
-    url(r'^bats/create', BatCreateAPIView.as_view()),
-    url(r'^bats/(?P<pk>\d+)', BatRetrieveUpdateDestroyAPIView.as_view())
+    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view())
 ]
