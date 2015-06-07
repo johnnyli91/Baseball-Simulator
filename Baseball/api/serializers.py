@@ -8,12 +8,20 @@ class BatCreateSerializer(serializers.ModelSerializer):
         model = Bat
 
 
+class PlayerOnlyNameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Player
+        fields = ('name',)
+
+
 class BatSerializer(serializers.ModelSerializer):
     result = serializers.SerializerMethodField()
+    player = PlayerOnlyNameSerializer()
 
     class Meta:
         model = Bat
-        fields = ('pk', 'player', 'inning', 'result')
+        fields = ('pk', 'player', 'result')
 
     def get_result(self, obj):
         return obj.get_result_display()
@@ -51,14 +59,6 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class TeamDetailSerializer(serializers.ModelSerializer):
     team_player = PlayerSerializer(many=True)
-
-    class Meta:
-        model = Team
-        fields = ('pk', 'name', 'team_player')
-
-
-class TeamDetailWithBatSerializer(serializers.ModelSerializer):
-    team_player = PlayerWithBatSerializer(many=True)
 
     class Meta:
         model = Team
@@ -103,11 +103,13 @@ class InningSerializer(serializers.ModelSerializer):
 
 
 class InningDetailSerializer(serializers.ModelSerializer):
-    team = TeamDetailWithBatSerializer(read_only=True)
+    team = TeamDetailSerializer(read_only=True)
     game = GameBasicSerializer()
+    bat_inning = BatSerializer(many=True, read_only=True)
 
     class Meta:
         model = Inning
+        fields = ('id', 'game', 'number', 'score', 'team', 'bat_inning')
 
 
 class GameDetailSerializer(serializers.ModelSerializer):

@@ -89,7 +89,7 @@ class Bat(models.Model):
         (8, "Flyout")
     )
     player = models.ForeignKey(Player, related_name="bat")
-    inning = models.ForeignKey(Inning, related_name="inning")
+    inning = models.ForeignKey(Inning, related_name="bat_inning")
     result = models.IntegerField(choices=RESULT_CHOICES)
 
     def __unicode__(self):
