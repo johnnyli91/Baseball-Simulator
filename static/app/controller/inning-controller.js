@@ -8,7 +8,7 @@ angular.module("baseballApp")
         $scope.game = data.game;
         $scope.number = data.number;
         $scope.score = data.score;
-        $scope.bat = data.bat_inning;
+        $scope.bat_inning = data.bat_inning;
       }).error(function (data, status, headers, config) {
         console.log(data);
       })

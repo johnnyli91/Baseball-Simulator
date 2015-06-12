@@ -2,10 +2,10 @@
   <h1>{{game.name}} (Inning: {{number}})</h1>
   <h3>Team: {{team.name}}</h3>
   <h3>Score: {{score}}</h3>
-  <h3>Players</h3>
+  <h3>At Bat</h3>
   <ul>
-    <li ng-repeat="player in team.team_player">
-      {{player.name}}
+    <li ng-repeat="bat in bat_inning">
+      {{bat.player.name}} : {{bat.result}}
     </li>
   </ul>
 </div>
