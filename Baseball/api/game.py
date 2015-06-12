@@ -77,23 +77,23 @@ class Simulation:
             elif current_bat == 3:
                 if third_base:
                     score += 1
-                    third_base = team[team_index]
                 if second_base:
                     score += 1
                     second_base = None
                 if first_base:
                     score += 1
                     first_base = None
+                third_base = team[team_index]
             elif current_bat == 2:
                 if third_base:
                     score += 1
                     third_base = None
                 if second_base:
                     score += 1
-                    second_base = team[team_index]
                 if first_base:
                     third_base = first_base
                     first_base = None
+                second_base = team[team_index]
             elif current_bat == 1 or current_bat == 5:
                 if third_base:
                     score += 1
@@ -103,7 +103,7 @@ class Simulation:
                     second_base = None
                 if first_base:
                     second_base = first_base
-                    first_base = team[team_index]
+                first_base = team[team_index]
             else:
                 outs += 1
             if team_index == len(team) - 1:
