@@ -4,11 +4,12 @@ angular.module("baseballApp")
     $scope.pk = $routeParams["pk"];
     $http.get("http://localhost:8000/api/innings/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
-        $scope.team = data.team
-        $scope.game = data.game
-        $scope.number = data.number
-        $scope.score = data.score
+        $scope.team = data.team;
+        $scope.game = data.game;
+        $scope.number = data.number;
+        $scope.score = data.score;
+        $scope.bat = data.bat_inning;
       }).error(function (data, status, headers, config) {
         console.log(data);
       })
-  })
+  });
