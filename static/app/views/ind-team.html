@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid col-md-4 col-md-offset-4 text-center">
   <h1>{{teamName}}</h1>
   <h3>Players</h3>
-  <ul>
+  <ul class="list-unstyled">
     <li ng-repeat="player in players"><a href="#/player/{{player.pk}}">{{player.name}}</a></li>
   </ul>
 </div>
