@@ -9,7 +9,7 @@ angular.module("baseballApp")
         console.log(data);
       })
     $scope.playBall = function () {
-      $http.post("http://localhost:8000/api/games/", {"name": $scope.gameName, "team": [$scope.homeTeam.pk, $scope.awayTeam.pk]}).
+      $http.post("http://localhost:8000/api/games/", {"name": $scope.gameName, "team": [$scope.awayTeam.pk, $scope.homeTeam.pk]}).
         success(function (data, status, headers, config) {
           var result_pk = data.pk;
           $location.path("/game/" + result_pk);

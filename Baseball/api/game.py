@@ -4,10 +4,10 @@ import random
 
 class Simulation:
     def __init__(self, team1, team2, game):
-        self.team1 = Player.objects.filter(team=team1.pk)
-        self.team2 = Player.objects.filter(team=team2.pk)
-        self.pitcher1 = self.team1.filter(role=1)
-        self.pitcher2 = self.team2.filter(role=1)
+        self.away_team = Player.objects.filter(team=team1.pk)
+        self.home_team = Player.objects.filter(team=team2.pk)
+        self.away_pitcher = self.away_team.filter(role=1)
+        self.home_pitcher = self.home_team.filter(role=1)
         self.game = game
         self.team1_index = 0
         self.team2_index = 0
@@ -116,22 +116,22 @@ class Simulation:
     def play(self):
         inning = 1
         for i in range(9):
-            Inning.objects.create(game=self.game, number=inning, team=self.team1[0].team)
+            Inning.objects.create(game=self.game, number=inning, team=self.away_team[0].team)
             team1_inning = Inning.objects.latest('pk')
-            Inning.objects.create(game=self.game, number=inning, team=self.team2[0].team)
+            Inning.objects.create(game=self.game, number=inning, team=self.home_team[0].team)
             team2_inning = Inning.objects.latest('pk')
             # TODO: fix bug about resetting team indexes
-            self.inning(self.team1, self.pitcher2[0], self.team1_index, team1_inning)
-            self.inning(self.team2, self.pitcher1[0], self.team2_index, team2_inning)
+            self.inning(self.away_team, self.home_pitcher[0], self.team1_index, team1_inning)
+            self.inning(self.home_team, self.away_team[0], self.team2_index, team2_inning)
             inning += 1
         all_innings = Inning.objects.filter(game=self.game)
-        team1_inning = all_innings.filter(team=self.team1[0].team)
-        team2_inning = all_innings.filter(team=self.team2[0].team)
+        team1_inning = all_innings.filter(team=self.away_team[0].team)
+        team2_inning = all_innings.filter(team=self.home_team[0].team)
         team1_score = 0
         team2_score = 0
         for inning in team1_inning:
             team1_score += inning.score
         for inning in team2_inning:
             team2_score += inning.score
-        Score.objects.create(team=self.team1[0].team, game=self.game, score=team1_score)
-        Score.objects.create(team=self.team2[0].team, game=self.game, score=team2_score)
+        Score.objects.create(team=self.away_team[0].team, game=self.game, score=team1_score)
+        Score.objects.create(team=self.home_team[0].team, game=self.game, score=team2_score)
