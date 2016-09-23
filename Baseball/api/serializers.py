@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import *
+from Baseball.models import Bat, Game, Inning, Player, Score, Team
 
 
 class BatCreateSerializer(serializers.ModelSerializer):
@@ -32,7 +32,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ('pk', 'name', 'role', 'power', 'eye', 'speed', 'pitcher_control', 'pitcher_power', 'pitcher_movement')
+        fields = ('pk', 'name', 'role', 'rating', 'speed')
 
     def get_role(self, obj):
         return obj.get_role_display()
