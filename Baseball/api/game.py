@@ -95,7 +95,7 @@ class Simulation:
         MIN_PITCHER_HOME_RUN = 0.2
         PITCHER_HOME_RUN_CONSTANT = 0.016
         MAX_TRIPLE_CONSTANT = 0.12
-        MAX_DOUBLE_CONSTANT = 0.205128205128205
+        MAX_DOUBLE_CONSTANT = 0.20
 
         batter_home_run_stat = MAX_BATTER_HOME_RUN - (Player.MAX_RATING - batter.batter_home_run_rating) * BATTER_HOME_RUN_CONSTANT
         pitcher_home_run_stat = MIN_PITCHER_HOME_RUN + (Player.MAX_RATING - pitcher.pitcher_home_run_rating) * PITCHER_HOME_RUN_CONSTANT
@@ -105,7 +105,9 @@ class Simulation:
         triple_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - batter.speed_rating) * delta_triple
 
         # TODO: doubles
-        double_chance = 0
+        delta_double = MAX_DOUBLE_CONSTANT / Player.MAX_RATING
+        double_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - delta_double)
+
 
         random_number = random.uniform(0, 1)
         if random_number <= home_run_chance:
