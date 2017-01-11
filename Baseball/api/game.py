@@ -106,7 +106,7 @@ class Simulation:
 
         # TODO: doubles
         delta_double = MAX_DOUBLE_CONSTANT / Player.MAX_RATING
-        double_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - delta_double)
+        double_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - batter.batter_double_rating)*delta_double
 
 
         random_number = random.uniform(0, 1)
@@ -126,7 +126,7 @@ class Simulation:
         second_base = None
         third_base = None
         while outs < 3:
-            current_bat = self.bat(team[team_index], pitcher, team_inning)
+            current_bat = self.at_bat(team[team_index], pitcher, team_inning)
             if current_bat == 4:
                 score += 1
                 if third_base:
