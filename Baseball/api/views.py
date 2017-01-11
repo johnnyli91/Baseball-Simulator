@@ -1,5 +1,6 @@
 import random
-from rest_framework import generics
+from rest_framework import generics, views
+from rest_framework.response import Response
 from Baseball.models import Game, Inning, Player, Team
 from game import Simulation
 from serializers import GameSerializer, GameDetailSerializer, InningDetailSerializer, \
@@ -87,3 +88,22 @@ class InningCreateAPIView(generics.CreateAPIView):
 class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningDetailSerializer
+
+
+#TODO: Remove when done testing
+class TestBat(views.APIView):
+
+    def get(self, request):
+        result_dict = {}
+        team_1 = Team.objects.get(pk=1)
+        team_2 = Team.objects.get(pk=2)
+        game = Game.objects.latest('pk')
+        sim = Simulation(team_1, team_2, game)
+        for i in xrange(1000):
+            current_result = sim.test_at_bat()
+            try:
+                result_dict[current_result] += 1
+            except KeyError:
+                result_dict[current_result] = 1
+        return Response(result_dict)
+

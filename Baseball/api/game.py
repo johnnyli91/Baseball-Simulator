@@ -66,7 +66,7 @@ class Simulation:
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
-    def at_bat(self, batter, pitcher, inning):
+    def at_bat(self, batter, pitcher):
         if self.hit(batter, pitcher):
             result = self.type_of_hit(batter, pitcher)
         else:
@@ -118,6 +118,15 @@ class Simulation:
             return self.BATTING_RESULT_DICT["double"]
         else:
             return self.BATTING_RESULT_DICT["single"]
+
+    #TODO: Remove when done testing
+    def test_at_bat(self):
+        player_1 = Player.objects.get(pk=1)
+        player_2 = Player.objects.get(pk=2)
+        result = self.at_bat(player_1, player_2)
+        for key in self.BATTING_RESULT_DICT:
+            if self.BATTING_RESULT_DICT[key] == result:
+                return key
 
     def inning(self, team, pitcher, team_index, team_inning):
         outs = 0

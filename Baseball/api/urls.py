@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^games/(?P<pk>\d+)', GameRetrieveUpdateDestroyAPIView.as_view()),
     url(r'^innings/$', InningListAPIView.as_view()),
     url(r'^innings/create', InningCreateAPIView.as_view()),
-    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view())
+    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view()),
+    url(r'^test/', TestBat.as_view())
 ]

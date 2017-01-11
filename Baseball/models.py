@@ -17,13 +17,14 @@ class Player(models.Model):
 
     name = models.CharField(max_length=120)
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
-    batter_double_rating = models.IntegerField()
-    batter_home_run_rating = models.IntegerField()
-    batter_hit_rating = models.IntegerField()
-    pitcher_home_run_rating = models.IntegerField()
-    pitcher_hit_rating = models.IntegerField()
-    speed_rating = models.IntegerField()
-    power_rating = models.IntegerField()
+    batter_double_rating = models.IntegerField(default=1)
+    batter_home_run_rating = models.IntegerField(default=1)
+    batter_hit_rating = models.IntegerField(default=1)
+    pitcher_home_run_rating = models.IntegerField(default=1)
+    pitcher_hit_rating = models.IntegerField(default=1)
+    speed_rating = models.IntegerField(default=1)
+    power_rating = models.IntegerField(default=1)
+    team = models.ForeignKey(Team, null=True)
 
     def __unicode__(self):
         return self.name
