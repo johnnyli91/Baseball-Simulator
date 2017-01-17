@@ -32,7 +32,7 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Player
-        fields = ('pk', 'name', 'role', 'rating', 'speed')
+        fields = ('pk', 'name', 'role')
 
     def get_role(self, obj):
         return obj.get_role_display()
@@ -54,15 +54,14 @@ class TeamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Team
-        fields = ('pk', 'name', 'team_player')
+        fields = ('pk', 'name')
 
 
 class TeamDetailSerializer(serializers.ModelSerializer):
-    team_player = PlayerSerializer(many=True)
 
     class Meta:
         model = Team
-        fields = ('pk', 'name', 'team_player')
+        fields = ('pk', 'name')
 
 
 class ScoreSerializer(serializers.ModelSerializer):
