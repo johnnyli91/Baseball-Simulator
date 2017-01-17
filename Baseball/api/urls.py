@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
-from views import *
+from views import TeamListCreateAPIView, TeamRetrieveUpdateDestroyAPIView, PlayerListAPIView, \
+    PlayerRetrieveUpdateDestroyAPIView, GameListCreateAPIView, GameRetrieveUpdateDestroyAPIView, \
+    InningListAPIView, InningCreateAPIView, InningRetrieveUpdateDestroyAPIView, TestBat
 
 urlpatterns = [
     url(r'^teams/$', TeamListCreateAPIView.as_view()),
