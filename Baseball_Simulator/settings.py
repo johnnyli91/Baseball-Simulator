@@ -26,19 +26,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CORS_ORIGIN_ALLOW_ALL = True
-
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
-CORS_ALLOW_HEADERS = (
-    'x-requested-with',
-    'content-type',
-    'accept',
-    'origin',
-    'authorization',
-    'x-csrftoken',
-    'Api-Authorization',
-)
 
 
 # Application definition
@@ -52,13 +40,11 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'Baseball',
     'rest_framework',
-    'django_filters',
-    'corsheaders'
+    'django_filters'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
