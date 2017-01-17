@@ -59,4 +59,6 @@ target/
 local_settings.py
 .DS_Store
 .idea/
+static/admin/
+static/rest_framework/
 

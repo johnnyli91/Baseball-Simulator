@@ -1,10 +1,11 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8"/>
       <title>Baseball Simulator</title>
-      <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
-      <link href="assets/css/style.css" rel="stylesheet"/>
+      <link href="{% static "assets/css/bootstrap.min.css" %}" rel="stylesheet"/>
+      <link href="{% static "assets/css/style.css"%}" rel="stylesheet"/>
   </head>
   <body ng-app="baseballApp">
     <nav class="navbar navbar-default" role="navigation" bs-navbar>
@@ -19,20 +20,20 @@
     </nav>
 
     <div ng-view=""></div>
-    <script src="assets/js/angular.min.js"></script>
-    <script src="assets/js/angular-route.min.js"></script>
+    <script src="{% static "assets/js/angular.min.js" %}"></script>
+    <script src="{% static "assets/js/angular-route.min.js" %}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/controller/home-controller.js"></script>
-    <script src="app/controller/game-controller.js"></script>
-    <script src="app/controller/ind-game-controller.js"></script>
-    <script src="app/controller/player-controller.js"></script>
-    <script src="app/controller/ind-player-controller.js"></script>
-    <script src="app/controller/team-controller.js"></script>
-    <script src="app/controller/ind-team-controller.js"></script>
-    <script src="app/controller/inning-controller.js"></script>
-    <script src="app/controller/404-controller.js"></script>
-    <script src="app/routes.js"></script>
+    <script src="{% static "app/app.js" %}"></script>
+    <script src="{% static "app/controller/home-controller.js" %}"></script>
+    <script src="{% static "app/controller/game-controller.js" %}"></script>
+    <script src="{% static "app/controller/ind-game-controller.js" %}"></script>
+    <script src="{% static "app/controller/player-controller.js" %}"></script>
+    <script src="{% static "app/controller/ind-player-controller.js" %}"></script>
+    <script src="{% static "app/controller/team-controller.js" %}"></script>
+    <script src="{% static "app/controller/ind-team-controller.js" %}"></script>
+    <script src="{% static "app/controller/inning-controller.js" %}"></script>
+    <script src="{% static "app/controller/404-controller.js" %}"></script>
+    <script src="{% static "app/routes.js" %}"></script>
   </body>
 </html>
