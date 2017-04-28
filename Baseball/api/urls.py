@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
-from views import *
+from views import TeamListCreateAPIView, TeamRetrieveUpdateDestroyAPIView, PlayerListAPIView, \
+    PlayerRetrieveUpdateDestroyAPIView, GameListCreateAPIView, GameRetrieveUpdateDestroyAPIView, \
+    InningListAPIView, InningCreateAPIView, InningRetrieveUpdateDestroyAPIView, TestBat
 
 urlpatterns = [
     url(r'^teams/$', TeamListCreateAPIView.as_view()),
@@ -10,5 +12,6 @@ urlpatterns = [
     url(r'^games/(?P<pk>\d+)', GameRetrieveUpdateDestroyAPIView.as_view()),
     url(r'^innings/$', InningListAPIView.as_view()),
     url(r'^innings/create', InningCreateAPIView.as_view()),
-    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view())
+    url(r'^innings/(?P<pk>\d+)', InningRetrieveUpdateDestroyAPIView.as_view()),
+    url(r'^test/', TestBat.as_view())
 ]

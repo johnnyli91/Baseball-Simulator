@@ -1,75 +1,44 @@
-from rest_framework import generics
-from serializers import *
-from game import Simulation
 import random
-import math
+from rest_framework import generics, views
+from rest_framework.response import Response
+from Baseball.models import Game, Inning, Player, Team
+from game import Simulation
+from serializers import GameSerializer, GameDetailSerializer, InningDetailSerializer, \
+    InningSerializer, InningCreateSerializer, PlayerSerializer, \
+    TeamSerializer, TeamDetailSerializer
 
 
 class TeamListCreateAPIView(generics.ListCreateAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
+
     def perform_create(self, serializer):
-        def round_down(x):
-            return math.floor(x/5) * 5
-        first_name = ["Robert", "Joe", "David", "John"]
-        last_name = ["Richards", "Chan", "Li", "Jue"]
+        FIRST_NAME_LIST = ["Robert", "Joe", "David", "John"]
+        LAST_NAME_LIST = ["Richards", "Chan", "Li", "Jue"]
+        TEAM_SIZE = 8
+
         serializer.save()
         team_pk = Team.objects.latest('pk')
-        b_contact = random.randint(1, 100)
-        b_single = random.randint(1, 100)
-        b_double = random.randint(1, 100)
-        b_triple = random.randint(1, 100)
-        b_homerun = random.randint(1, 100)
-        b_walk = random.randint(1, 100)
-        b_strikeout = random.randint(1, 100)
-        b_groundout = random.randint(1, 100)
-        b_flyout = random.randint(1, 100)
-        b_speed = random.randint(1, 100)
-        p_contact = random.randint(1, 100)
-        p_single = random.randint(1, 100)
-        p_double = random.randint(1, 100)
-        p_triple = random.randint(1, 100)
-        p_homerun = random.randint(1, 100)
-        p_walk = random.randint(1, 100)
-        p_strikeout = random.randint(1, 100)
-        p_groundout = random.randint(1, 100)
-        p_flyout = random.randint(1, 100)
-        speed = round_down(b_triple * 0.49 + 50)
-        power = round_down(b_homerun * 0.49 + 50)
-        eye = round_down(b_walk * 0.49 + 50)
-        pitcher_control = round_down(p_walk * 0.49 + 50)
-        pitcher_power = round_down(p_strikeout * 0.49 + 50)
-        pitcher_movement = round_down(p_contact * 0.49 + 50)
-        Player.objects.create(name=random.choice(first_name) + " " + random.choice(last_name), team=team_pk,
-                              power=power, eye=eye, speed=speed, batter_contact=b_contact,
-                              pitcher_control=pitcher_control, pitcher_power=pitcher_power,
-                              pitcher_movement=pitcher_movement, batter_single=b_single,
-                              batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
-                              batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
-                              batter_flyout=b_flyout, batter_speed=b_speed, pitcher_contact=p_contact,
-                              pitcher_single=p_single, pitcher_double=p_double, pitcher_triple=p_triple,
-                              pitcher_homerun=p_homerun, pitcher_walk=p_walk, pitcher_strikeout=p_strikeout,
-                              pitcher_groundout=p_groundout, pitcher_flyout=p_flyout, role=1)
-        for i in range(8):
-            b_contact = random.randint(1, 100)
-            b_single = random.randint(1, 100)
-            b_double = random.randint(1, 100)
-            b_triple = random.randint(1, 100)
-            b_homerun = random.randint(1, 100)
-            b_walk = random.randint(1, 100)
-            b_strikeout = random.randint(1, 100)
-            b_groundout = random.randint(1, 100)
-            b_flyout = random.randint(1, 100)
-            b_speed = random.randint(1, 100)
-            speed = round_down(b_triple * 0.49 + 50)
-            power = round_down(b_homerun * 0.49 + 50)
-            eye = round_down(b_walk * 0.49 + 50)
-            Player.objects.create(name=random.choice(first_name) + " " + random.choice(last_name), team=team_pk,
-                                  power=power, eye=eye, speed=speed, batter_contact=b_contact, batter_single=b_single,
-                                  batter_double=b_double, batter_triple=b_triple, batter_homerun=b_homerun,
-                                  batter_walk=b_walk, batter_strikeout=b_strikeout, batter_groundout=b_groundout,
-                                  batter_flyout=b_flyout, batter_speed=b_speed)
-
+        # TODO: power calculation
+        player_list = [Player(name="{} {}".format(random.choice(FIRST_NAME_LIST), random.choice(LAST_NAME_LIST)),
+                              team=team_pk,
+                              batter_double_rating=random.randint(1, Player.MAX_RATING),
+                              batter_home_run_rating=random.randint(1, Player.MAX_RATING),
+                              batter_hit_rating=random.randint(1, Player.MAX_RATING),
+                              pitcher_home_run_rating=random.randint(1, Player.MAX_RATING),
+                              speed_rating=random.randint(1, Player.MAX_RATING),
+                              pitcher_hit_rating=random.randint(1, Player.MAX_RATING),
+                              role=0) for i in xrange(TEAM_SIZE)]
+        player_list.append(Player(name="{} {}".format(random.choice(FIRST_NAME_LIST), random.choice(LAST_NAME_LIST)),
+                                  team=team_pk,
+                                  batter_double_rating=random.randint(1, Player.MAX_RATING),
+                                  batter_home_run_rating=random.randint(1, Player.MAX_RATING),
+                                  batter_hit_rating=random.randint(1, Player.MAX_RATING),
+                                  pitcher_home_run_rating=random.randint(1, Player.MAX_RATING),
+                                  speed_rating=random.randint(1, Player.MAX_RATING),
+                                  pitcher_hit_rating=random.randint(1, Player.MAX_RATING),
+                                  role=1))
+        Player.objects.bulk_create(player_list)
 
 
 class TeamRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -119,3 +88,22 @@ class InningCreateAPIView(generics.CreateAPIView):
 class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningDetailSerializer
+
+
+#TODO: Remove when done testing
+class TestBat(views.APIView):
+
+    def get(self, request):
+        result_dict = {}
+        team_1 = Team.objects.get(pk=1)
+        team_2 = Team.objects.get(pk=2)
+        game = Game.objects.latest('pk')
+        sim = Simulation(team_1, team_2, game)
+        for i in xrange(1000):
+            current_result = sim.test_at_bat()
+            try:
+                result_dict[current_result] += 1
+            except KeyError:
+                result_dict[current_result] = 1
+        return Response(result_dict)
+

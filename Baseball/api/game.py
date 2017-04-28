@@ -1,8 +1,19 @@
-from ..models import *
 import random
+from Baseball.models import Bat, Inning, Player, Score
 
 
 class Simulation:
+    BATTING_RESULT_DICT = {
+        "single": 1,
+        "double": 2,
+        "triple": 3,
+        "home_run": 4,
+        "walk": 5,
+        "strike_out": 6,
+        "ground_out": 7,
+        "fly_out": 8
+    }
+
     def __init__(self, team1, team2, game):
         self.away_team = Player.objects.filter(team=team1.pk)
         self.home_team = Player.objects.filter(team=team2.pk)
@@ -55,6 +66,68 @@ class Simulation:
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
+    def at_bat(self, batter, pitcher):
+        if self.hit(batter, pitcher):
+            result = self.type_of_hit(batter, pitcher)
+        else:
+            result = self.BATTING_RESULT_DICT['strike_out']
+        return result
+
+    def hit(self, batter, pitcher):
+        MAX_BATTER_HIT = 0.45
+        MIN_PITCHER_HIT = 0.1
+        PITCHER_HIT_CONSTANT = 0.004
+        HIT_CHANCE_CONSTANT = 2
+
+        delta_batter_hit_stat = batter.batter_hit_rating * (MAX_BATTER_HIT / Player.MAX_RATING)
+        batter_hit_stat = MAX_BATTER_HIT - (Player.MAX_RATING - batter.batter_hit_rating) * delta_batter_hit_stat
+        pitcher_hit_stat = (Player.MAX_RATING - pitcher.pitcher_hit_rating) * PITCHER_HIT_CONSTANT + MIN_PITCHER_HIT
+        hit_chance = (batter_hit_stat + pitcher_hit_stat) / HIT_CHANCE_CONSTANT
+
+        if random.uniform(0, 1) <= hit_chance:
+            return True
+        else:
+            return False
+
+    def type_of_hit(self, batter, pitcher):
+        MAX_BATTER_HOME_RUN = 0.35
+        BATTER_HOME_RUN_CONSTANT = 0.0035
+        MIN_PITCHER_HOME_RUN = 0.2
+        PITCHER_HOME_RUN_CONSTANT = 0.016
+        MAX_TRIPLE_CONSTANT = 0.12
+        MAX_DOUBLE_CONSTANT = 0.20
+
+        batter_home_run_stat = MAX_BATTER_HOME_RUN - (Player.MAX_RATING - batter.batter_home_run_rating) * BATTER_HOME_RUN_CONSTANT
+        pitcher_home_run_stat = MIN_PITCHER_HOME_RUN + (Player.MAX_RATING - pitcher.pitcher_home_run_rating) * PITCHER_HOME_RUN_CONSTANT
+        home_run_chance = batter_home_run_stat * pitcher_home_run_stat
+
+        delta_triple = MAX_TRIPLE_CONSTANT / Player.MAX_RATING
+        triple_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - batter.speed_rating) * delta_triple
+
+        # TODO: doubles
+        delta_double = MAX_DOUBLE_CONSTANT / Player.MAX_RATING
+        double_chance = MAX_TRIPLE_CONSTANT - (Player.MAX_RATING - batter.batter_double_rating)*delta_double
+
+
+        random_number = random.uniform(0, 1)
+        if random_number <= home_run_chance:
+            return self.BATTING_RESULT_DICT["home_run"]
+        elif random_number <= home_run_chance + triple_chance:
+            return self.BATTING_RESULT_DICT["triple"]
+        elif random_number <= home_run_chance + triple_chance + double_chance:
+            return self.BATTING_RESULT_DICT["double"]
+        else:
+            return self.BATTING_RESULT_DICT["single"]
+
+    #TODO: Remove when done testing
+    def test_at_bat(self):
+        player_1 = Player.objects.get(pk=1)
+        player_2 = Player.objects.get(pk=2)
+        result = self.at_bat(player_1, player_2)
+        for key in self.BATTING_RESULT_DICT:
+            if self.BATTING_RESULT_DICT[key] == result:
+                return key
+
     def inning(self, team, pitcher, team_index, team_inning):
         outs = 0
         score = 0
@@ -62,7 +135,7 @@ class Simulation:
         second_base = None
         third_base = None
         while outs < 3:
-            current_bat = self.bat(team[team_index], pitcher, team_inning)
+            current_bat = self.at_bat(team[team_index], pitcher, team_inning)
             if current_bat == 4:
                 score += 1
                 if third_base:

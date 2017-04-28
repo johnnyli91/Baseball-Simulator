@@ -1,12 +1,12 @@
 "use strict";
 angular.module("baseballApp")
-  .controller("IndPlayerController", function ($scope, $routeParams, $http) {
+  .controller("IndPlayerController", function ($scope, $routeParams, $http, $location) {
     $scope.pk = $routeParams["pk"];
-    $http.get("http://localhost:8000/api/players/" + $scope.pk + "/").
+    $http.get($location.host() + "/api/players/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
         $scope.playerName = data.name;
         $scope.role = data.role;
-        console.log($scope.role)
+        console.log($scope.role);
         $scope.power = data.power;
         $scope.contact = data.eye;
         $scope.speed = data.speed;
@@ -16,4 +16,4 @@ angular.module("baseballApp")
       }).error(function (data, status, headers, config) {
         console.log(data);
       })
-  })
+  });

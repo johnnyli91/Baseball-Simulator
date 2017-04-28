@@ -1,8 +1,8 @@
 "use strict";
 angular.module("baseballApp")
-  .controller("InningController", function ($scope, $routeParams, $http) {
+  .controller("InningController", function ($scope, $routeParams, $http, $location) {
     $scope.pk = $routeParams["pk"];
-    $http.get("http://localhost:8000/api/innings/" + $scope.pk + "/").
+    $http.get($location.host() + "/api/innings/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
         $scope.team = data.team;
         $scope.game = data.game;

@@ -13,38 +13,18 @@ class Player(models.Model):
         (0, "Batter"),
         (1, "Pitcher")
     )
+    MAX_RATING = 99
+
     name = models.CharField(max_length=120)
     role = models.IntegerField(choices=ROLE_CHOICES, default=0)
-    # batter display stats
-    power = models.IntegerField()
-    eye = models.IntegerField()
-    speed = models.IntegerField()
-    # pitcher display stats
-    pitcher_control = models.IntegerField(default=1)
-    pitcher_power = models.IntegerField(default=1)
-    pitcher_movement = models.IntegerField(default=1)
-    team = models.ForeignKey(Team, related_name="team_player")
-    # actual stats for calculations
-    batter_contact = models.IntegerField()
-    batter_single = models.IntegerField()
-    batter_double = models.IntegerField()
-    batter_triple = models.IntegerField()
-    batter_homerun = models.IntegerField()
-    batter_walk = models.IntegerField()
-    batter_strikeout = models.IntegerField()
-    batter_groundout = models.IntegerField()
-    batter_flyout = models.IntegerField()
-    batter_speed = models.IntegerField()
-    pitcher_contact = models.IntegerField(default=1)
-    pitcher_single = models.IntegerField(default=1)
-    pitcher_double = models.IntegerField(default=1)
-    pitcher_triple = models.IntegerField(default=1)
-    pitcher_homerun = models.IntegerField(default=1)
-    pitcher_walk = models.IntegerField(default=1)
-    pitcher_strikeout = models.IntegerField(default=1)
-    pitcher_groundout = models.IntegerField(default=1)
-    pitcher_flyout = models.IntegerField(default=1)
-
+    batter_double_rating = models.IntegerField(default=1)
+    batter_home_run_rating = models.IntegerField(default=1)
+    batter_hit_rating = models.IntegerField(default=1)
+    pitcher_home_run_rating = models.IntegerField(default=1)
+    pitcher_hit_rating = models.IntegerField(default=1)
+    speed_rating = models.IntegerField(default=1)
+    power_rating = models.IntegerField(default=1)
+    team = models.ForeignKey(Team, null=True)
 
     def __unicode__(self):
         return self.name
