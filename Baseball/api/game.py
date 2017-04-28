@@ -135,7 +135,7 @@ class Simulation:
         second_base = None
         third_base = None
         while outs < 3:
-            current_bat = self.at_bat(team[team_index], pitcher, team_inning)
+            current_bat = self.at_bat(team[team_index], pitcher)
             if current_bat == 4:
                 score += 1
                 if third_base:
