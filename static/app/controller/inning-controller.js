@@ -2,7 +2,7 @@
 angular.module("baseballApp")
   .controller("InningController", function ($scope, $routeParams, $http, $location) {
     $scope.pk = $routeParams["pk"];
-    $http.get($location.host() + "/api/innings/" + $scope.pk + "/").
+    $http.get("/api/innings/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
         $scope.team = data.team;
         $scope.game = data.game;

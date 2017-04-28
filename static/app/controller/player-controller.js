@@ -1,7 +1,7 @@
 "use strict";
 angular.module("baseballApp")
   .controller("PlayerController", function ($scope, $http, $location) {
-    $http.get($location.host() + "/api/players").
+    $http.get("/api/players").
       success(function (data, status, headers, config) {
         $scope.players = data;
       }).

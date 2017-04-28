@@ -2,7 +2,7 @@
 angular.module("baseballApp")
   .controller("IndPlayerController", function ($scope, $routeParams, $http, $location) {
     $scope.pk = $routeParams["pk"];
-    $http.get($location.host() + "/api/players/" + $scope.pk + "/").
+    $http.get("/api/players/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
         $scope.playerName = data.name;
         $scope.role = data.role;

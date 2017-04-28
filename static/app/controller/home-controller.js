@@ -1,7 +1,7 @@
 "use strict";
 angular.module("baseballApp")
   .controller("HomeController", function ($scope, $http, $location) {
-    $http.get($location.host() + "/api/teams").
+    $http.get("/api/teams").
       success(function (data, status, headers, config) {
         $scope.teams = data;
       }).
@@ -9,7 +9,7 @@ angular.module("baseballApp")
         console.log(data);
       });
     $scope.playBall = function () {
-      $http.post($location.host() + "/api/games/", {"name": $scope.gameName, "team": [$scope.awayTeam.pk, $scope.homeTeam.pk]}).
+      $http.post("/api/games/", {"name": $scope.gameName, "team": [$scope.awayTeam.pk, $scope.homeTeam.pk]}).
         success(function (data, status, headers, config) {
           var result_pk = data.pk;
           $location.path("/game/" + result_pk);
@@ -19,7 +19,7 @@ angular.module("baseballApp")
         });
     };
     $scope.makeTeam = function() {
-      $http.post($location.host() + "/api/teams/", {"name":$scope.teamName, "team_player": []}).
+      $http.post("/api/teams/", {"name":$scope.teamName, "team_player": []}).
         success(function (data, status, headers, config) {
           var result_pk = data.pk;
           $location.path("/team/" + result_pk);
