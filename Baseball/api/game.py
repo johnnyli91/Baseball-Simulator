@@ -66,11 +66,13 @@ class Simulation:
         Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
-    def at_bat(self, batter, pitcher):
+    def at_bat(self, batter, pitcher, inning):
         if self.hit(batter, pitcher):
             result = self.type_of_hit(batter, pitcher)
+            Bat.objects.create(player=batter, inning=inning, result=result)
         else:
             result = self.BATTING_RESULT_DICT['strike_out']
+            Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
     def hit(self, batter, pitcher):
@@ -79,8 +81,7 @@ class Simulation:
         PITCHER_HIT_CONSTANT = 0.004
         HIT_CHANCE_CONSTANT = 2
 
-        delta_batter_hit_stat = batter.batter_hit_rating * (MAX_BATTER_HIT / Player.MAX_RATING)
-        batter_hit_stat = MAX_BATTER_HIT - (Player.MAX_RATING - batter.batter_hit_rating) * delta_batter_hit_stat
+        batter_hit_stat = batter.batter_hit_rating * (MAX_BATTER_HIT / Player.MAX_RATING)
         pitcher_hit_stat = (Player.MAX_RATING - pitcher.pitcher_hit_rating) * PITCHER_HIT_CONSTANT + MIN_PITCHER_HIT
         hit_chance = (batter_hit_stat + pitcher_hit_stat) / HIT_CHANCE_CONSTANT
 
@@ -135,7 +136,7 @@ class Simulation:
         second_base = None
         third_base = None
         while outs < 3:
-            current_bat = self.at_bat(team[team_index], pitcher)
+            current_bat = self.at_bat(team[team_index], pitcher, team_inning)
             if current_bat == 4:
                 score += 1
                 if third_base:
