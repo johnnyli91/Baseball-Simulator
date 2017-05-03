@@ -1,6 +1,7 @@
 import random
-from rest_framework import generics, views
-from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework import generics
+from rest_framework.views import APIView, Response
 from Baseball.models import Game, Inning, Player, Team
 from game import Simulation
 from serializers import GameSerializer, GameDetailSerializer, InningDetailSerializer, \
@@ -39,11 +40,6 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
                                   pitcher_hit_rating=random.randint(1, Player.MAX_RATING),
                                   role=1))
         Player.objects.bulk_create(player_list)
-
-
-class TeamRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Team.objects.all()
-    serializer_class = TeamDetailSerializer
 
 
 class PlayerListAPIView(generics.ListAPIView):
@@ -90,8 +86,36 @@ class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InningDetailSerializer
 
 
-#TODO: Remove when done testing
-class TestBat(views.APIView):
+class PlayerDetailView(APIView):
+
+    def get(self, request, player_id):
+        player = get_object_or_404(Player, id=player_id)
+
+        result_dict = {
+            'name': player.name,
+            'role': player.role,
+            'power': player.power_rating,
+            'speed': player.speed_rating
+        }
+        return Response(result_dict)
+
+
+class TeamDetailView(APIView):
+
+    def get(self, request, team_id):
+        team = get_object_or_404(Team, id=team_id)
+        players = Player.objects.filter(team=team).values('id', 'name')
+
+        result_dict = {
+            'name': team.name,
+            'players': players
+        }
+
+        return Response(result_dict)
+
+
+# TODO: Remove when done testing
+class TestBat(APIView):
 
     def get(self, request):
         result_dict = {}
