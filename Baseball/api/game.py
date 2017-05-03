@@ -69,10 +69,9 @@ class Simulation:
     def at_bat(self, batter, pitcher, inning):
         if self.hit(batter, pitcher):
             result = self.type_of_hit(batter, pitcher)
-            Bat.objects.create(player=batter, inning=inning, result=result)
         else:
             result = self.BATTING_RESULT_DICT['strike_out']
-            Bat.objects.create(player=batter, inning=inning, result=result)
+        Bat.objects.create(player=batter, inning=inning, result=result)
         return result
 
     def hit(self, batter, pitcher):
