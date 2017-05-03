@@ -2,7 +2,7 @@ import random
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.views import APIView, Response
-from Baseball.models import Game, Inning, Player, Team
+from Baseball.models import Game, Inning, Player, Score, Team
 from game import Simulation
 from serializers import GameSerializer, GameDetailSerializer, InningDetailSerializer, \
     InningSerializer, InningCreateSerializer, PlayerSerializer, \
@@ -66,11 +66,6 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
         sim.play()
 
 
-class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameDetailSerializer
-
-
 class InningListAPIView(generics.ListAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningSerializer
@@ -84,6 +79,42 @@ class InningCreateAPIView(generics.CreateAPIView):
 class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningDetailSerializer
+
+
+class GameDetailView(APIView):
+    def get(self, request, game_id):
+
+        try:
+            game = Game.objects.prefetch_related('team').get(id=game_id)
+        except Game.DoesNotExist:
+            return Response({
+                'success': False,
+                'message': 'Game not found.'
+            })
+        innings = Inning.objects.filter(game=game).order_by('number')
+        scores = Score.objects.filter(game=game)
+
+        result_dict = {
+            'game_name': game.name,
+            'game_data': {}
+        }
+
+        for team in game.team.all():
+            result_dict['game_data'][team.id] = {
+                'name': team.name,
+                'innings': [],
+                'score': 0
+            }
+        for inning in innings:
+            result_dict['game_data'][inning.team_id]['innings'].append({
+                'inning_id': inning.id,
+                'number': inning.number,
+                'score': inning.score
+            })
+        for score in scores:
+            result_dict['game_data'][score.team_id]['score'] = score.score
+
+        return Response(result_dict)
 
 
 class PlayerDetailView(APIView):

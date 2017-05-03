@@ -7,18 +7,12 @@
       <td class="table_heading" ng-repeat="num in inningNumber">{{num}}</td>
       <td class="table_heading">Final</td>
     </tr>
-    <tr>
-      <td class="table_heading"><a href="#/team/{{innings[0].team.pk}}">{{innings[0].team.name}}</a></td>
-      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[0].team.pk">
-        <a href="#/inning/{{inning.id}}">{{inning.score}}</a>
+    <tr ng-repeat="(team, data) in gameData">
+      <td class="table_heading"><a href="#/team/{{team}}">{{data.name}}</a></td>
+      <td ng-repeat="inning in data.innings">
+        <a href="#/inning/{{inning.inning_id}}">{{inning.score}}</a>
       </td>
-      <td>{{scores[0].score}}</td>
+      <td>{{data.score}}</td>
     </tr>
-    <tr>
-      <td class="table_heading"><a href="#/team/{{innings[1].team.pk}}">{{innings[1].team.name}}</a></td>
-      <td ng-repeat="inning in innings" ng-if="inning.team.pk === innings[1].team.pk">
-        <a href="#/inning/{{inning.id}}">{{inning.score}}</a>
-      </td>
-      <td>{{scores[1].score}}</td>
-    </tr>
+  </table>
 </div>
