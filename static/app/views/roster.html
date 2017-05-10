@@ -7,11 +7,11 @@
       <link href="{% static "assets/css/bootstrap.min.css" %}" rel="stylesheet"/>
   </head>
   <body>
-    {% for i in user_team %}
-        {{ i.name }}
+    {% for team in user_team %}
+        {{ team.name }}
         <ul>
-        {% for j in user_player %}
-            <li>{{ j.name }}</li>
+        {% for player in user_player %}
+            <li>{{ player.name }}</li>
         {% endfor %}
         </ul>
     {% endfor %}

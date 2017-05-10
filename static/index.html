@@ -18,8 +18,8 @@
         <li data-match-route="/player"><a href="#/player">Player</a></li>
         <li>
           {%  if user.is_authenticated %}
-              {% for i in user_team %}
-                  {{ i.name }}
+              {% for team in user_team %}
+                  {{ team.name }}
               {% endfor %}
               Logged in as: {{ user.username }}
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8"/>
       <title>Baseball Simulator</title>
       <link href="{% static "assets/css/bootstrap.min.css" %}" rel="stylesheet"/>
+      <link href="{% static "assets/css/signup.css" %}" rel="stylesheet"/>
   </head>
   <body>
       <h2>Sign up</h2>
@@ -15,10 +16,10 @@
             {{ field.label_tag }}<br>
             {{ field }}
             {% if field.help_text %}
-              <small style="color: grey">{{ field.help_text }}</small>
+              <small class="help-style">{{ field.help_text }}</small>
             {% endif %}
             {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
+              <p class="error-style">{{ error }}</p>
             {% endfor %}
           </p>
         {% endfor %}
