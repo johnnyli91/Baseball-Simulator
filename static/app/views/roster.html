@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+      <title>Baseball Simulator</title>
+      <link href="{% static "assets/css/bootstrap.min.css" %}" rel="stylesheet"/>
+  </head>
+  <body>
+    {% for i in user_team %}
+        {{ i.name }}
+        <ul>
+        {% for j in user_player %}
+            <li>{{ j.name }}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+  </body>
+</html>

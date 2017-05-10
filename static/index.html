@@ -16,6 +16,16 @@
         <li data-match-route="/game"><a href="#/game">Game</a></li>
         <li data-match-route="/team"><a href="#/team">Team</a></li>
         <li data-match-route="/player"><a href="#/player">Player</a></li>
+        <li>
+          {%  if user.is_authenticated %}
+              {% for i in user_team %}
+                  {{ i.name }}
+              {% endfor %}
+              Logged in as: {{ user.username }}
+
+          {%  endif %}
+        </li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
       </ul>
     </nav>
 
