@@ -1,7 +1,8 @@
 import random
-from rest_framework import generics, views
-from rest_framework.response import Response
-from Baseball.models import Game, Inning, Player, Team
+from django.shortcuts import get_object_or_404
+from rest_framework import generics
+from rest_framework.views import APIView, Response
+from Baseball.models import Game, Inning, Player, Score, Team
 from game import Simulation
 from serializers import GameSerializer, GameDetailSerializer, InningDetailSerializer, \
     InningSerializer, InningCreateSerializer, PlayerSerializer, \
@@ -41,11 +42,6 @@ class TeamListCreateAPIView(generics.ListCreateAPIView):
         Player.objects.bulk_create(player_list)
 
 
-class TeamRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Team.objects.all()
-    serializer_class = TeamDetailSerializer
-
-
 class PlayerListAPIView(generics.ListAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
@@ -70,11 +66,6 @@ class GameListCreateAPIView(generics.ListCreateAPIView):
         sim.play()
 
 
-class GameRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Game.objects.all()
-    serializer_class = GameDetailSerializer
-
-
 class InningListAPIView(generics.ListAPIView):
     queryset = Inning.objects.all()
     serializer_class = InningSerializer
@@ -90,8 +81,72 @@ class InningRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = InningDetailSerializer
 
 
-#TODO: Remove when done testing
-class TestBat(views.APIView):
+class GameDetailView(APIView):
+    def get(self, request, game_id):
+
+        try:
+            game = Game.objects.prefetch_related('team').get(id=game_id)
+        except Game.DoesNotExist:
+            return Response({
+                'success': False,
+                'message': 'Game not found.'
+            })
+        innings = Inning.objects.filter(game=game).order_by('number')
+        scores = Score.objects.filter(game=game)
+
+        result_dict = {
+            'game_name': game.name,
+            'game_data': {}
+        }
+
+        for team in game.team.all():
+            result_dict['game_data'][team.id] = {
+                'name': team.name,
+                'innings': [],
+                'score': 0
+            }
+        for inning in innings:
+            result_dict['game_data'][inning.team_id]['innings'].append({
+                'inning_id': inning.id,
+                'number': inning.number,
+                'score': inning.score
+            })
+        for score in scores:
+            result_dict['game_data'][score.team_id]['score'] = score.score
+
+        return Response(result_dict)
+
+
+class PlayerDetailView(APIView):
+
+    def get(self, request, player_id):
+        player = get_object_or_404(Player, id=player_id)
+
+        result_dict = {
+            'name': player.name,
+            'role': player.role,
+            'power': player.power_rating,
+            'speed': player.speed_rating
+        }
+        return Response(result_dict)
+
+
+class TeamDetailView(APIView):
+
+    def get(self, request, team_id):
+        team = get_object_or_404(Team, id=team_id)
+        players = Player.objects.filter(team=team).values('id', 'name')
+
+        result_dict = {
+            'name': team.name,
+            'players': players
+        }
+
+        return Response(result_dict)
+
+
+# TODO: Remove when done testing
+class TestBat(APIView):
 
     def get(self, request):
         result_dict = {}

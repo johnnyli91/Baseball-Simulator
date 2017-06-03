@@ -5,10 +5,7 @@ angular.module("baseballApp")
     $scope.inningNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     $http.get($location.host() + "/api/games/" + $scope.pk + "/").
       success(function (data, status, headers, config) {
-        $scope.gameName = data.name;
-        $scope.scores = data.game_score;
-        $scope.innings = data.inning;
-      }).error(function (data, status, headers, config) {
-        console.log(data);
+        $scope.gameName = data.game_name;
+        $scope.gameData = data.game_data;
       })
   });
