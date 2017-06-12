@@ -1,0 +1,40 @@
+<div class="container-fluid col-md-4 col-md-offset-4 text-center" ng-repeat="player in data.player_attributes">
+  <ul class="list-unstyled">
+        <h1>{{ player.name }} - {{ player.team}}</h1>
+      <table>
+          <tr>
+              <th>Hit</th>
+              <th>Power</th>
+              <th>Speed</th>
+          </tr>
+          <tr>
+              <td>{{ player.hit }}</td>
+              <td>{{ player.power }}</td>
+              <td>{{ player.speed }}</td>
+          </tr>
+      </table>
+      <p></p>
+      <table ng-repeat="stats in data.player_stats">
+          <tr>
+              <th>{{ year }}</th>
+              <th>Team</th>
+              <th>Games</th>
+              <th>AB</th>
+              <th>R</th>
+              <th>H</th>
+              <th>2B</th>
+              <th>3B</th>
+              <th>HR</th>
+              <th>RBI</th>
+              <th>BB</th>
+              <th>K</th>
+              <th>SB</th>
+              <th>CS</th>
+              <th>AVG</th>
+              <th>OBP</th>
+              <th>SLG</th>
+          </tr>
+          <td>1990</td>
+      </table>
+  </ul>
+</div>

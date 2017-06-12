@@ -135,7 +135,7 @@ class TeamDetailView(APIView):
 
     def get(self, request, team_id):
         team = get_object_or_404(Team, id=team_id)
-        players = Player.objects.filter(team=team).values('id', 'name')
+        players = Player.objects.filter(team=team).values('id', 'name', 'team')
 
         result_dict = {
             'name': team.name,
@@ -143,6 +143,66 @@ class TeamDetailView(APIView):
         }
 
         return Response(result_dict)
+
+
+class RosterView(APIView):
+    def get(self, request, team_id):
+        if request.user.is_authenticated():
+            user_team = Team.objects.filter(id = team_id)  # returns a list of objects
+            team_list = []
+
+            for team in user_team:
+                team_list.append({'id': team.id, 'name': team.name})
+
+            user_player = Player.objects.filter(team__in=user_team).values('id', 'name', 'team__name')  # returns a dictionary, filter only works on objects
+
+            result_dict = {
+                'user_team': team_list,
+                'user_player': user_player
+            }
+            return Response(result_dict)
+        else:
+            return Response(request, '../static/app/views/registration/login.html')
+
+
+class TeamView(APIView):
+    def get(self, request):
+        if request.user.is_authenticated():
+            user_team = Team.objects.filter(user=request.user)  # returns a list of objects
+            team_list = []
+
+            for team in user_team:
+                team_list.append({'team_name':team.name, 'team_id': team.id})
+
+            result_dict = {
+                'user_team': team_list,
+            }
+            return Response(result_dict)
+        else:
+            return Response(request, '../static/app/views/registration/login.html')
+
+class PlayerView(APIView):
+    def get(self, request, player_id):
+        if request.user.is_authenticated():
+            user_players = Player.objects.filter(id=player_id)
+            player_attributes = []
+            player_stats = []
+
+            for player in user_players:
+                player_attributes.append({'name': player.name, 'role': player.role, 'power': player.batter_home_run_rating,
+                                         'speed': player.speed_rating, 'team': player.team.name,
+                                          'hit': player.batter_hit_rating})
+
+                player_stats.append({'year': player.year, 'team': player.team.name, 'games': player.games, 'AB': player.AB,
+                                     'R': player.runs, 'H': player.hits, 'double': player.doubles, 'triples': player.triples,
+                                     'HR': player.HR, 'RBI': player.RBI, 'BB': player.BB, 'K': player.K, 'SB': player.SB,
+                                     'CS': player.CS, 'AVG': player.AVG, 'OBP': player.OBP, 'SLG': player.SLG})
+                result_dict = {
+                    'player_attributes': player_attributes, 'player_stats': player_stats
+                }
+            return Response(result_dict)
+
+
 
 
 # TODO: Remove when done testing

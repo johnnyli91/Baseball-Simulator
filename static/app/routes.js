@@ -37,5 +37,17 @@ angular.module("baseballApp").config(function ($routeProvider) {
       templateUrl: "static/app/views/404.html",
       controller: "404Controller"
     })
+    .when("/teamview/:pk", {
+      templateUrl: "static/app/views/roster.html",
+      controller: "RosterController"
+    })
+    .when("/teamview", {
+      templateUrl: "static/app/views/team-view.html",
+      controller: "TeamViewController"
+  })
+    .when("/playerprofile/:pk", {
+      templateUrl: "static/app/views/player-profile.html",
+      controller: "PlayerProfileController"
+  })
     .otherwise({redirectTo: "/404"});
 });

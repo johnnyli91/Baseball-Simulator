@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Team(models.Model):
     name = models.CharField(max_length=120)
     user = models.ForeignKey(User, null=True)
+
     def __unicode__(self):
         return self.name
 
@@ -26,6 +27,29 @@ class Player(models.Model):
     speed_rating = models.IntegerField(default=1)
     power_rating = models.IntegerField(default=1)
     team = models.ForeignKey(Team, null=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class PlayerGameData(models.Model):
+    player = models.ForeignKey(Team, null=True)
+    year = models.IntegerField(default=0)
+    games = models.IntegerField(default=0)
+    AB = models.IntegerField(default=0)
+    runs = models.IntegerField(default=0)
+    hits = models.IntegerField(default=0)
+    doubles = models.IntegerField(default=0)
+    triples = models.IntegerField(default=0)
+    HR = models.IntegerField(default=0)
+    RBI = models.IntegerField(default=0)
+    BB = models.IntegerField(default=0)
+    K = models.IntegerField(default=0)
+    SB = models.IntegerField(default=0)
+    CS = models.IntegerField(default=0)
+    AVG = models.IntegerField(default=0)
+    OBP = models.IntegerField(default=0)
+    SLG = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name
